@@ -29,7 +29,7 @@
             [
                 ""
             ],
-            "processScript": "airlines.csql",
+            "processScript": "dml/airlines.csql",
             "sourceEntities":
             {
                 "dataModels":
@@ -61,7 +61,7 @@
             [
                 ""
             ],
-            "processScript": "airports.csql",
+            "processScript": "dml/airports.csql",
             "sourceEntities":
             {
                 "dataModels":
@@ -93,7 +93,7 @@
             [
                 ""
             ],
-            "processScript": "countries.csql",
+            "processScript": "dml/countries.csql",
             "sourceEntities":
             {
                 "dataModels":
@@ -125,7 +125,7 @@
             [
                 ""
             ],
-            "processScript": "planes.csql",
+            "processScript": "dml/planes.csql",
             "sourceEntities":
             {
                 "dataModels":
@@ -157,7 +157,7 @@
             [
                 ""
             ],
-            "processScript": "routes.csql",
+            "processScript": "dml/routes.csql",
             "sourceEntities":
             {
                 "dataModels":
