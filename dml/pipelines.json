@@ -1,0 +1,176 @@
+{
+    "defaults":
+    {
+        "cronExpressions":
+        [
+            "0 */5 0 ? * * *"
+        ],
+        "prepareScripts":
+        [
+            ""
+        ]
+    },
+    "pipelines":
+    [
+        {
+            "pipelineName": "airlines",
+            "pipelineDescription": "Pipeline para processar dados de Airlines",
+            "outputDataModelName": "airlines",
+            "overlapDeltaMinutes": 3600,
+            "saveToCds": true,
+            "saveToUnified": true,
+            "sendToSubscriptions": true,
+            "cronExpressions":
+            [
+                "0 5,15,25,35,45,56 * * * ?"
+            ],
+            "timeZone": "America/Sao_Paulo",
+            "prepareScripts":
+            [
+                ""
+            ],
+            "processScript": "airlines.csql",
+            "sourceEntities":
+            {
+                "dataModels":
+                [
+                ],
+                "stagings":
+                [
+                    {
+                        "connectorName": "pyCarol",
+                        "stagingName": "airlines"
+                    }
+                ]
+            }
+        },
+        {
+            "pipelineName": "airports",
+            "pipelineDescription": "Pipeline para processar dados de Airports",
+            "outputDataModelName": "airports",
+            "overlapDeltaMinutes": 3600,
+            "saveToCds": true,
+            "saveToUnified": true,
+            "sendToSubscriptions": true,
+            "cronExpressions":
+            [
+                "0 5,15,25,35,45,56 * * * ?"
+            ],
+            "timeZone": "America/Sao_Paulo",
+            "prepareScripts":
+            [
+                ""
+            ],
+            "processScript": "airports.csql",
+            "sourceEntities":
+            {
+                "dataModels":
+                [
+                ],
+                "stagings":
+                [
+                    {
+                        "connectorName": "pyCarol",
+                        "stagingName": "airports"
+                    }
+                ]
+            }
+        },
+        {
+            "pipelineName": "countries",
+            "pipelineDescription": "Pipeline para processar dados de Countries",
+            "outputDataModelName": "countries",
+            "overlapDeltaMinutes": 3600,
+            "saveToCds": true,
+            "saveToUnified": true,
+            "sendToSubscriptions": true,
+            "cronExpressions":
+            [
+                "0 5,15,25,35,45,56 * * * ?"
+            ],
+            "timeZone": "America/Sao_Paulo",
+            "prepareScripts":
+            [
+                ""
+            ],
+            "processScript": "countries.csql",
+            "sourceEntities":
+            {
+                "dataModels":
+                [
+                ],
+                "stagings":
+                [
+                    {
+                        "connectorName": "pyCarol",
+                        "stagingName": "countries"
+                    }
+                ]
+            }
+        },
+        {
+            "pipelineName": "planes",
+            "pipelineDescription": "Pipeline para processar dados de Planes",
+            "outputDataModelName": "planes",
+            "overlapDeltaMinutes": 3600,
+            "saveToCds": true,
+            "saveToUnified": true,
+            "sendToSubscriptions": true,
+            "cronExpressions":
+            [
+                "0 5,15,25,35,45,56 * * * ?"
+            ],
+            "timeZone": "America/Sao_Paulo",
+            "prepareScripts":
+            [
+                ""
+            ],
+            "processScript": "planes.csql",
+            "sourceEntities":
+            {
+                "dataModels":
+                [
+                ],
+                "stagings":
+                [
+                    {
+                        "connectorName": "pyCarol",
+                        "stagingName": "planes"
+                    }
+                ]
+            }
+        },
+        {
+            "pipelineName": "routes",
+            "pipelineDescription": "Pipeline para processar dados de Routes",
+            "outputDataModelName": "routes",
+            "overlapDeltaMinutes": 3600,
+            "saveToCds": true,
+            "saveToUnified": true,
+            "sendToSubscriptions": true,
+            "cronExpressions":
+            [
+                "0 5,15,25,35,45,56 * * * ?"
+            ],
+            "timeZone": "America/Sao_Paulo",
+            "prepareScripts":
+            [
+                ""
+            ],
+            "processScript": "routes.csql",
+            "sourceEntities":
+            {
+                "dataModels":
+                [
+                ],
+                "stagings":
+                [
+                    {
+                        "connectorName": "pyCarol",
+                        "stagingName": "routes"
+                    }
+                ]
+            }
+        }
+    ]
+}
