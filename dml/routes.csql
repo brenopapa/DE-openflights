@@ -1,0 +1,32 @@
+WITH routes_routes AS (
+  SELECT
+    Airline AS airline,
+    Airline_ID AS airline_id,
+    Destination_airport AS destination_airport,
+    Destination_airport_ID AS destination_airport_id,
+    Source_airport AS source_airport,
+    Source_airport_ID AS source_airport_id,
+    SAFE_CAST(Stops AS INT64) AS stops
+    --metadata--
+  FROM (
+    SELECT * EXCEPT(ranking)
+    FROM (
+      SELECT ROW_NUMBER() OVER (partition BY mdmId ORDER BY mdmCounterForEntity DESC) ranking, *
+      FROM stg_pycarol_routes
+      --timestamp-- WHERE mdmCounterForEntity__DATETIME__ > {{start_from}}
+    )
+    WHERE ranking = 1
+  ) AS stg
+),
+combinedSources AS (
+  SELECT * FROM routes_routes
+),
+processedData AS (
+  SELECT *
+  FROM combinedSources
+  -- WHERE
+  -- rejection rules
+)
+
+SELECT * FROM processedData
+

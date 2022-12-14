@@ -1,0 +1,28 @@
+WITH countries_countries AS (
+  SELECT
+    iso_code AS iso_code,
+    Name AS name,
+    dafif_code AS dafif_code
+    --metadata--
+  FROM (
+    SELECT * EXCEPT(ranking)
+    FROM (
+      SELECT ROW_NUMBER() OVER (partition BY mdmId ORDER BY mdmCounterForEntity DESC) ranking, *
+      FROM stg_pycarol_countries
+      --timestamp-- WHERE mdmCounterForEntity__DATETIME__ > {{start_from}}
+    )
+    WHERE ranking = 1
+  ) AS stg
+),
+combinedSources AS (
+  SELECT * FROM countries_countries
+),
+processedData AS (
+  SELECT *
+  FROM combinedSources
+  -- WHERE
+  -- rejection rules
+)
+
+SELECT * FROM processedData
+

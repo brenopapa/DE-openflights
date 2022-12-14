@@ -1,0 +1,31 @@
+WITH airlines_airlines AS (
+  SELECT
+    Airline_ID AS airline_id,
+    Name AS name,
+    NULLIF(TRIM(Alias),'\\N') AS alias,
+    Country AS mdmcountry,
+    IF(Active = 'Y', TRUE, FALSE) AS mdmisactive
+    --metadata--
+  FROM (
+    SELECT * EXCEPT(ranking)
+    FROM (
+      SELECT ROW_NUMBER() OVER (partition BY mdmId ORDER BY mdmCounterForEntity DESC) ranking, *
+      FROM stg_pycarol_airlines
+      --timestamp-- WHERE mdmCounterForEntity__DATETIME__ > {{start_from}}
+    )
+    WHERE ranking = 1
+  ) AS stg
+),
+combinedSources AS (
+  SELECT * FROM airlines_airlines
+),
+processedData AS (
+  SELECT * ,
+  (mdmisactive = FALSE) AS mdmDeleted
+  FROM combinedSources
+  -- WHERE
+  -- rejection rules
+)
+
+SELECT * FROM processedData
+
