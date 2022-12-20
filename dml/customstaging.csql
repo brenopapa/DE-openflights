@@ -1,0 +1,27 @@
+WITH customstaging_customstaging AS (
+  SELECT
+    code AS code,
+    description AS description
+    --metadata--
+  FROM (
+    SELECT * EXCEPT(ranking)
+    FROM (
+      SELECT ROW_NUMBER() OVER (partition BY mdmId ORDER BY mdmCounterForEntity DESC) ranking, *
+      FROM stg_myconnector_customstaging
+      --timestamp-- WHERE mdmCounterForEntity__DATETIME__ > {{start_from}}
+    )
+    WHERE ranking = 1
+  ) AS stg
+),
+combinedSources AS (
+  SELECT * FROM customstaging_customstaging
+),
+processedData AS (
+  SELECT *
+  FROM combinedSources
+  -- WHERE
+  -- rejection rules
+)
+
+SELECT * FROM processedData
+
