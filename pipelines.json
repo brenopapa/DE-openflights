@@ -171,6 +171,38 @@
                     }
                 ]
             }
+        },
+        {
+            "pipelineName": "customstaging",
+            "pipelineDescription": "Pipeline para processar dados de uma nova staging table",
+            "outputDataModelName": "customstaging",
+            "overlapDeltaMinutes": 3600,
+            "saveToCds": true,
+            "saveToUnified": true,
+            "sendToSubscriptions": true,
+            "cronExpressions":
+            [
+                "0 5,15,25,35,45,56 * * * ?"
+            ],
+            "timeZone": "America/Sao_Paulo",
+            "prepareScripts":
+            [
+                ""
+            ],
+            "processScript": "dml/customstaging.csql",
+            "sourceEntities":
+            {
+                "dataModels":
+                [
+                ],
+                "stagings":
+                [
+                    {
+                        "connectorName": "myconnector",
+                        "stagingName": "customstaging"
+                    }
+                ]
+            }
         }
     ]
 }
