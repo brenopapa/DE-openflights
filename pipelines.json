@@ -38,7 +38,7 @@
                 "stagings":
                 [
                     {
-                        "connectorName": "pyCarol",
+                        "connectorName": "myconnector",
                         "stagingName": "airlines"
                     }
                 ]
@@ -70,7 +70,7 @@
                 "stagings":
                 [
                     {
-                        "connectorName": "pyCarol",
+                        "connectorName": "myconnector",
                         "stagingName": "airports"
                     }
                 ]
@@ -102,7 +102,7 @@
                 "stagings":
                 [
                     {
-                        "connectorName": "pyCarol",
+                        "connectorName": "myconnector",
                         "stagingName": "countries"
                     }
                 ]
@@ -134,7 +134,7 @@
                 "stagings":
                 [
                     {
-                        "connectorName": "pyCarol",
+                        "connectorName": "myconnector",
                         "stagingName": "planes"
                     }
                 ]
@@ -166,7 +166,7 @@
                 "stagings":
                 [
                     {
-                        "connectorName": "pyCarol",
+                        "connectorName": "myconnector",
                         "stagingName": "routes"
                     }
                 ]

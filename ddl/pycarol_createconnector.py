@@ -10,5 +10,5 @@ with open(credential_file, encoding="utf-8") as f:
 
 carol = Carol(domain='brenopapa', #app_name='MinhaCoop',
                 auth=PwdAuth(auth['username'], auth['password']), organization='datascience') 
-connector_id = Connectors(carol).create(name='pycarol', label="pycarol", group_name="pycarol")
+connector_id = Connectors(carol).create(name='myconnector', label="myconnector", group_name="myconnector")
 print(f"This is the connector id: {connector_id}")

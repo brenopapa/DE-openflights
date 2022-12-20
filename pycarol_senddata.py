@@ -4,9 +4,7 @@ from pycarol import PwdAuth, Carol, Staging, ApiKeyAuth, Connectors
 from pycarol.bigquery import BQ
 
 mytenants = {
-    'brenopapa1': '',
-    'brenopapa2': '',
-    'brenopapa3': ''
+    'brenopapa2': '87f97dacdab54da98b673eee16f93ca0'
 }
 
 for tenant, connector in mytenants.items():

@@ -12,7 +12,7 @@ carol = Carol(domain='brenopapa', #app_name='MinhaCoop',
 
 api_key = carol.issue_api_key()
 
-connector = 'ebc4e1f503944aeda32d2003914a4bbc'
+connector = '3de64ff45e5943b9ad52b44b4206316f'
 
 df = pd.read_csv("./data/planes.dat", names=["Name", "IATA_code", "ICAO_code"])
 print(df.head())
@@ -20,4 +20,4 @@ print(df.head())
 staging = Staging(carol)
 schema = staging.create_schema(staging_name='planes', data = df.astype(str),
                       crosswalk_name= 'CrosswalkId' ,crosswalk_list=['IATA_code', 'ICAO_code'],
-                        connector_name='pycarol')
+                        connector_name='myconnector')
