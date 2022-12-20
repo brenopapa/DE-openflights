@@ -22,5 +22,5 @@ processedData AS (
   -- rejection rules
 )
 
-SELECT * FROM processedData
+SELECT * FROM processedData where Name NOT LIKE '%mais um aviao%'
 

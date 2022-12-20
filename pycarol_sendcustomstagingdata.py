@@ -4,6 +4,7 @@ from pycarol import PwdAuth, Carol, Staging, ApiKeyAuth, Connectors
 from pycarol.bigquery import BQ
 
 mytenants = {
+    'brenopapa1': 'd5b0068fc0c0487eb52fc2a7b5e626ba',
     'brenopapa2': 'a007680ea1874bb5a337ca399bd4cf60',
     'brenopapa3': 'ea9db33535f4455a901568effc9607f5',
 }
@@ -19,7 +20,7 @@ for tenant, connector in mytenants.items():
 
     api_key = carol.issue_api_key()
 
-    d = {'Description': ['mydata', 'thisdata'], 'code': ['1', '2']}
+    d = {'Description': ['moredata', 'anotherdata'], 'code': ['3', '4']}
     df = pd.DataFrame(data=d)
     print(df)
 
