@@ -172,7 +172,6 @@
                 ]
             }
         },
-        ,
         {
             "pipelineName": "customstaging",
             "pipelineDescription": "Pipeline para processar dados de uma nova staging table",
