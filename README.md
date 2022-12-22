@@ -21,7 +21,7 @@ OBS: as stagings devem estar préviamente criadas para executar esses scripts.
 Após a clonagem do repositório (passo 1), devemos criar um tenant de desenvolvimento, onde iremos criar nosso Carol App com todos os conectores, staging tables, datamodels e pipelines necessárias para processamento de dados. A tenant criada para tal função foi a tenant brenopapadev. Também foi criada a tenant unificada brenopapaunif e três tenants de cliente brenopapa1, brenopapa2 e brenopapa3. Com isso, temos o panorama de tenants abaixo.
 
 | Tenant        | Tipo           | Informações                                                                       |
-| ------------- |:--------------:| ---------------------------------------------------------------------------------:|
+| ------------- |:--------------:| :---------------------------------------------------------------------------------|
 | brenopapadev  | DEV            |  Tenant onde será desenvolvido o Carol App                                        |
 | brenopapaunif | UNIFIED        |  Tenant que receberá dados das tenants customer e fará o processamento dos dados. |
 | brenopapa1    | CUSTOMER       |  Tenant que receberá os dados de um dos clientes.                                 |
@@ -37,7 +37,7 @@ Com o repositório clonado, abra o script "pycarol_createconnector.py" e confira
 Com o ID do connector em mãos, abra os arquivos "pycarol_airlines.py", "pycarol_airports.py", "pycarol_countries", "pycarol_planes", "pycarol_routes", verifique os atributos "domain", "organization", "connector" e arquivo de credenciais. Execute cada um deles. Será criada uma staging table para cada script, utilizando a estrutura de cada um dos arquivos da pasta "data". A estrutura criada deve ser esta:
 
 | Staging Table | Informações                                                                                    |
-| ------------- |:----------------------------------------------------------------------------------------------:|
+| ------------- |:---------------------------------------------------------------------------------------------- |
 | airlines      | Reponsável por receber os dados brutos de linhas áereas. Vindos do arquivo .dat de mesmo nome. |
 | airports      | Reponsável por receber os dados brutos de aeroportos. Vindos do arquivo .dat de mesmo nome.    |
 | countries     | Reponsável por receber os dados brutos de países. Vindos do arquivo .dat de mesmo nome.        |
@@ -51,7 +51,7 @@ Ao final da criação das staging tables, podemos executar o script pycarol_send
 O próximo passo é criarmos os datamodels que convenientemente estão com seus snapshots presentes na pasta "dms" (datamodels) desse repositório. Vá até a UI da Carol e crie os datamodels utilizando as snapshots disponibilizadas.
 
 | Datamodel     | Informações                                                                                                             |
-| ------------- |:-----------------------------------------------------------------------------------------------------------------------:|
+| ------------- |:----------------------------------------------------------------------------------------------------------------------- |
 | airlines      | Reponsável por receber os dados processados pela pipeline SQL de linhas áereas. Vindos da staging table de mesmo nome.  |
 | airports      | Reponsável por receber os dados processados pela pipeline SQL  de aeroportos. Vindos da staging table de mesmo nome.    |
 | countries     | Reponsável por receber os dados processados pela pipeline SQL  de países. Vindos da staging table de mesmo nome.        |
@@ -66,7 +66,7 @@ Com os datamodels criados, agora precisamos de pipelines para processar os dados
 Com toda a estrutura de dados (stagings, datamodels e pipelines) criados no nosso tenant de desenvolvimento, precisamos criar uma tenant para ser a tenant unificada, que receberá os dados de todos os tenants customer vinculados ao mesmo Carol App. Crie uma tenant com a flag "Unified Tenant" marcada. Volte a tenant de desenvolvimento e inicie a criação do Carol App para "empacotar" tudo que foi criado até agora. Na tela de criação de Carol App, você verá todos os conectores, stagings e datamodels criados. Se tudo estiver OK, crie o Carol App com as seguintes configurações.
 
 | Configuração        | Informações                                                                                                                           |
-| ------------------- |:-------------------------------------------------------------------------------------------------------------------------------------:|
+| ------------------- |:------------------------------------------------------------------------------------------------------------------------------------- |
 | Label e Nome        | Servem para identificação lógica e visual do seu Carol App.                                                                           |
 | Version             | Serve para identificar a versão atual do Carol App.                                                                                   |
 | Unified Tenant      | Identifica qual tenant será a tenant unificada desse Carol App, todos os clientes com esse Carol App enviarão dados para essa tenant. |
