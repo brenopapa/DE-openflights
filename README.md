@@ -1,13 +1,13 @@
 Carol - DE Challenge - Openflights
 Este repositório tem por objetivo apresentar como utilizar o processamento de dados SQL unificado na plataforma Carol. 
 
-O contexto é de um cliente que precisa visualizar por meio de um dashboard estatísticas de rotas de vôos e o resultado final pode ser visualizado aqui.
+O contexto é de um cliente que precisa visualizar por meio de um dashboard estatísticas de rotas de vôos e o resultado final pode ser visualizado [aqui](https://carol.ai/insights/dashboard/473-desafio).
 
 As ferramentas utilizadas foram:
 
 TOTVS Carol com processamento SQL unificado
-Base de dados estática extraída do site openflights
-Scritps em Python utilizando a biblioteca pycarol para criar estruturas e subir os dados.
+Base de dados estática extraída do site [openflights](https://openflights.org/data.html)
+Scritps em Python utilizando a biblioteca [pycarol](https://github.com/totvslabs/pyCarol) para criar estruturas e subir os dados.
 Carol Insights Studio para geração de gráficos e dashboard
 
 # 1. Clonagem do repositório
@@ -22,11 +22,11 @@ Após a clonagem do repositório (passo 1), devemos criar um tenant de desenvolv
 
 | Tenant        | Tipo           | Informações                                                                       |
 | ------------- |:--------------:| :---------------------------------------------------------------------------------|
-| brenopapadev  | DEV            |  Tenant onde será desenvolvido o Carol App                                        |
-| brenopapaunif | UNIFIED        |  Tenant que receberá dados das tenants customer e fará o processamento dos dados. |
-| brenopapa1    | CUSTOMER       |  Tenant que receberá os dados de um dos clientes.                                 |
-| brenopapa2    | CUSTOMER       |  Tenant que receberá os dados de um dos clientes.                                 |
-| brenopapa3    | CUSTOMER       |  Tenant que receberá os dados de um dos clientes.                                 |
+| [brenopapadev](https://datascience.carol.ai/brenopapa/carol-ui/home)  | DEV            |  Tenant onde será desenvolvido o Carol App                                        |
+| [brenopapaunif]https://datascience.carol.ai/brenopapaunif/carol-ui/home)  | UNIFIED        |  Tenant que receberá dados das tenants customer e fará o processamento dos dados. |
+| [brenopapa1]https://datascience.carol.ai/brenopapa1/carol-ui/home)     | CUSTOMER       |  Tenant que receberá os dados de um dos clientes.                                 |
+| brenopapa2     | CUSTOMER       |  Tenant que receberá os dados de um dos clientes. Deletada no processo de validação de fluxos.                                |
+| [brenopapa3]https://datascience.carol.ai/brenopapa1/carol-ui/home)     | CUSTOMER       |  Tenant que receberá os dados de um dos clientes.                                 |
 
 OBS: todas as tenants criadas são SQL Processing Only.
 
@@ -74,7 +74,7 @@ Com toda a estrutura de dados (stagings, datamodels e pipelines) criados no noss
 
 É importante vincularmos nosso Carol App a um repositório no Github, assim as pipelines irão aparecer no nosso tenant e em todos os tenants com o App instalado, para que sejam processadas. Para isso, é necessário logar com o Github e apontar para um repositório, além de ter um arquivo pipelines.json dentro dele, que será solicitado para que a Carol encontre as pipelines, quais dados de stagings serão usados em cada pipeline e qual datamodel será populado em cada pipeline. Há um arquivo nesse repositório que serve de exemplo e já funciona com a estrutura desse projeto, caso tenha seguido todos os passos até aqui.
 
-Realize a release do Carol App.
+Realize a release do Carol App. O Carol App criado nesse desafio foi [este](https://datascience.carol.ai/brenopapa/carol-ui/carol-app-dev/569034f7a61046aba9230cbc17c025af/overview)
 
 ✅ CAROL APP CRIADO ✅
 
@@ -85,7 +85,7 @@ Agora podemos criar as tenants customer, apenas criando a tenant sem marcar "Uni
 Com toda a estrutura criada, agora temos um cenário onde sempre que as tenants com o Carol App instalado recebam dados nas stagings, automaticamente a Carol envia esses dados para a tenant unificada. A tenant unificada irá processar os dados utilizando as pipelines e depositar esses dados tratados nos datamodels. Pelo campo mdmTenantId os dados são divididos e enviados corretamente para cada tenant de cliente em seus datamodels respectivos.
 
 # 4. Gerando insights a partir dos dados processados
-Nesse projeto utilizamos o Carol Insights para apresentar dados dos tenants. Para habilitar essa integração, é necessário ir até a aba "Tenant Admin" > "Tokens" para gerar uma Google Service Account, para integrar ao Metabase presente no Carol Insights. O dashboard final pode ser acessado aqui e está apontado para a tenant unificada.
+Nesse projeto utilizamos o Carol Insights para apresentar dados dos tenants. Para habilitar essa integração, é necessário ir até a aba "Tenant Admin" > "Tokens" para gerar uma Google Service Account, para integrar ao Metabase presente no Carol Insights. O dashboard final pode ser acessado [aqui](https://carol.ai/insights/dashboard/473-desafio) e está apontado para a tenant unificada.
 
 # 5. DAEN-2019 - Validação de fluxos.
-Esse repositório, Carol App e tenants foram alvo da issue DAEN-2019, dessa forma, foram validados outros fluxos além do desafio de data engineering. Portanto, algumas estruturas podem estar um pouco diferentes do resultado final ao seguir esse passo-a-passo. O resultado da validação de fluxos está na issue.
+Esse repositório, Carol App e tenants foram alvo da issue [DAEN-2019](https://totvslabs.atlassian.net/browse/DAEN-2019), dessa forma, foram validados outros fluxos além do desafio de data engineering. Portanto, algumas estruturas podem estar um pouco diferentes do resultado final ao seguir esse passo-a-passo. O resultado da validação de fluxos está na issue.
