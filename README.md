@@ -23,10 +23,10 @@ Após a clonagem do repositório (passo 1), devemos criar um tenant de desenvolv
 | Tenant        | Tipo           | Informações                                                                       |
 | ------------- |:--------------:| :---------------------------------------------------------------------------------|
 | [brenopapadev](https://datascience.carol.ai/brenopapa/carol-ui/home)  | DEV            |  Tenant onde será desenvolvido o Carol App                                        |
-| [brenopapaunif]https://datascience.carol.ai/brenopapaunif/carol-ui/home)  | UNIFIED        |  Tenant que receberá dados das tenants customer e fará o processamento dos dados. |
-| [brenopapa1]https://datascience.carol.ai/brenopapa1/carol-ui/home)     | CUSTOMER       |  Tenant que receberá os dados de um dos clientes.                                 |
+| [brenopapaunif](https://datascience.carol.ai/brenopapaunif/carol-ui/home)  | UNIFIED        |  Tenant que receberá dados das tenants customer e fará o processamento dos dados. |
+| [brenopapa1](https://datascience.carol.ai/brenopapa1/carol-ui/home)     | CUSTOMER       |  Tenant que receberá os dados de um dos clientes.                                 |
 | brenopapa2     | CUSTOMER       |  Tenant que receberá os dados de um dos clientes. Deletada no processo de validação de fluxos.                                |
-| [brenopapa3]https://datascience.carol.ai/brenopapa1/carol-ui/home)     | CUSTOMER       |  Tenant que receberá os dados de um dos clientes.                                 |
+| [brenopapa3](https://datascience.carol.ai/brenopapa1/carol-ui/home)     | CUSTOMER       |  Tenant que receberá os dados de um dos clientes.                                 |
 
 OBS: todas as tenants criadas são SQL Processing Only.
 
