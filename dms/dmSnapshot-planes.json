@@ -1,0 +1,154 @@
+{
+    "description": {},
+    "entityTemplateName": "planes",
+    "entityTemplateType": [
+        {
+            "mdmDescription": {
+                "en-US": "Location",
+                "pt-BR": "Localização"
+            },
+            "mdmEntityType": "mdmEntityTemplateType",
+            "mdmId": "d5189de027922f81005951e6efe0efd5",
+            "mdmModelEntityTemplateId": "",
+            "mdmName": "location",
+            "mdmTenantId": "8cd6e43115e9416eb23609486fa053e3"
+        }
+    ],
+    "entityValidationRules": [],
+    "evictStaging": true,
+    "fieldMergeRules": [],
+    "fields": [
+        {
+            "mdmCustomDescription": {
+                "en-US": "Name"
+            },
+            "mdmCustomEnumValues": [],
+            "mdmCustomLabel": {
+                "en-US": "Name"
+            },
+            "mdmEnableAddressCleansing": false,
+            "mdmFieldSurvivorshipRuleIds": [
+                "36b10202c3fc447aa09a4976e98fe7fb"
+            ],
+            "mdmFieldSurvivorshipRules": [
+                {
+                    "mdmEntityTemplateId": "3d767f6f73df4c17b6c0e3c5da9408a2",
+                    "mdmEntityType": "mdmFieldSurvivorshipRule",
+                    "mdmFieldId": "254911e4a60e4a77a85c12bf45e0536d",
+                    "mdmFunction": {
+                        "mdmDescription": {
+                            "en-US": "the most recent value",
+                            "pt-BR": "o valor mais recente"
+                        },
+                        "mdmEntityType": "mdmSurvivorshipFunction",
+                        "mdmId": "27439baa3c0bbf323ca50b46fb95ea51",
+                        "mdmLabel": {
+                            "en-US": "Recency"
+                        },
+                        "mdmName": "RECENCY",
+                        "mdmParameters": [],
+                        "mdmTenantId": "8cd6e43115e9416eb23609486fa053e3"
+                    },
+                    "mdmFunctionId": "27439baa3c0bbf323ca50b46fb95ea51",
+                    "mdmId": "36b10202c3fc447aa09a4976e98fe7fb",
+                    "mdmParameterValues": [],
+                    "mdmParentFieldId": "",
+                    "mdmState": "NOT_CHANGED",
+                    "mdmSurviveUsingFieldName": "",
+                    "mdmTenantId": "bca1007e136a4632a83dabd97879684c"
+                }
+            ],
+            "mdmFieldType": "PRIMITIVE",
+            "mdmFields": [],
+            "mdmFlagRuleIds": [],
+            "mdmFlagRules": [],
+            "mdmForeignKeyField": false,
+            "mdmHasMapping": false,
+            "mdmHasView": false,
+            "mdmHidden": false,
+            "mdmId": "254911e4a60e4a77a85c12bf45e0536d",
+            "mdmInternalField": false,
+            "mdmIsDateOnly": false,
+            "mdmMappingDataType": "string",
+            "mdmMappings": [],
+            "mdmName": "name",
+            "mdmRequiredBy": "",
+            "mdmSizeLimit": 2048,
+            "mdmSkipRuleIds": [],
+            "mdmSkipRules": [],
+            "mdmTags": []
+        }
+    ],
+    "fieldsFull": {
+        "name": {
+            "mdmAnalyzer": "standard",
+            "mdmDescription": {
+                "en-US": "Name"
+            },
+            "mdmEntityType": "mdmField",
+            "mdmEnumValues": [],
+            "mdmFieldType": "PRIMITIVE",
+            "mdmFields": [],
+            "mdmFieldsFull": {},
+            "mdmForeignKeyField": false,
+            "mdmHidden": false,
+            "mdmId": "254911e4a60e4a77a85c12bf45e0536d",
+            "mdmIndex": "analyzed",
+            "mdmInternalField": false,
+            "mdmIsDateOnly": false,
+            "mdmLabel": {
+                "en-US": "Name"
+            },
+            "mdmMappingDataType": "string",
+            "mdmName": "name",
+            "mdmSizeLimit": 2048,
+            "mdmTags": [],
+            "mdmTenantId": "bca1007e136a4632a83dabd97879684c"
+        }
+    },
+    "groupName": "openflights",
+    "label": {
+        "en-US": "Planes"
+    },
+    "mdmClusterAndPartitioningBqOptions": {
+        "mdmClusteringBqOptions": {
+            "fieldsSelected": [
+                {
+                    "name": "mdmTenantId",
+                    "type": "string"
+                },
+                {
+                    "name": "mdmId",
+                    "type": "string"
+                },
+                {
+                    "name": "mdmCounterForEntity",
+                    "type": "long"
+                }
+            ]
+        },
+        "mdmDefaultBqOptions": true,
+        "mdmPartitionBqOptions": {
+            "fieldName": "mdmCounterForEntity__DATETIME__",
+            "fieldType": "date",
+            "partitionedBy": "TIME_UNIT_COLUMN",
+            "unitTime": "DAILY"
+        }
+    },
+    "profileTitleFields": [],
+    "snapshotCreationTime": "2022-12-22T13:38:21.916Z",
+    "storageTypes": {},
+    "tags": [],
+    "verticals": [
+        {
+            "mdmDescription": {
+                "en-US": "Services",
+                "pt-BR": "Serviços"
+            },
+            "mdmEntityType": "mdmVertical",
+            "mdmId": "1fece0cb254f1f45891bc9ee9fed72a9",
+            "mdmName": "crm",
+            "mdmTenantId": "8cd6e43115e9416eb23609486fa053e3"
+        }
+    ]
+}

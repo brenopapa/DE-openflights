@@ -1,0 +1,496 @@
+{
+    "description": {},
+    "entityTemplateName": "airlines",
+    "entityTemplateType": [
+        {
+            "mdmDescription": {
+                "en-US": "Location",
+                "pt-BR": "Localização"
+            },
+            "mdmEntityType": "mdmEntityTemplateType",
+            "mdmId": "d5189de027922f81005951e6efe0efd5",
+            "mdmModelEntityTemplateId": "",
+            "mdmName": "location",
+            "mdmTenantId": "8cd6e43115e9416eb23609486fa053e3"
+        }
+    ],
+    "entityValidationRules": [],
+    "evictStaging": true,
+    "fieldMergeRules": [],
+    "fields": [
+        {
+            "mdmCustomDescription": {},
+            "mdmCustomEnumValues": [],
+            "mdmCustomLabel": {
+                "en-US": "Airline_ID"
+            },
+            "mdmEnableAddressCleansing": false,
+            "mdmFieldSurvivorshipRuleIds": [
+                "b2a101034aea4336b5c4b09f49d023e7"
+            ],
+            "mdmFieldSurvivorshipRules": [
+                {
+                    "mdmEntityTemplateId": "8582323cc61f499ca270ac53515d9e5d",
+                    "mdmEntityType": "mdmFieldSurvivorshipRule",
+                    "mdmFieldId": "3f49f901b40c4742a35c2ddc4e25e029",
+                    "mdmFunction": {
+                        "mdmDescription": {
+                            "en-US": "the most recent value",
+                            "pt-BR": "o valor mais recente"
+                        },
+                        "mdmEntityType": "mdmSurvivorshipFunction",
+                        "mdmId": "27439baa3c0bbf323ca50b46fb95ea51",
+                        "mdmLabel": {
+                            "en-US": "Recency"
+                        },
+                        "mdmName": "RECENCY",
+                        "mdmParameters": [],
+                        "mdmTenantId": "8cd6e43115e9416eb23609486fa053e3"
+                    },
+                    "mdmFunctionId": "27439baa3c0bbf323ca50b46fb95ea51",
+                    "mdmId": "b2a101034aea4336b5c4b09f49d023e7",
+                    "mdmParameterValues": [],
+                    "mdmParentFieldId": "",
+                    "mdmState": "NOT_CHANGED",
+                    "mdmSurviveUsingFieldName": "",
+                    "mdmTenantId": "bca1007e136a4632a83dabd97879684c"
+                }
+            ],
+            "mdmFieldType": "PRIMITIVE",
+            "mdmFields": [],
+            "mdmFlagRuleIds": [],
+            "mdmFlagRules": [],
+            "mdmForeignKeyField": false,
+            "mdmHasMapping": false,
+            "mdmHasView": false,
+            "mdmHidden": false,
+            "mdmId": "3f49f901b40c4742a35c2ddc4e25e029",
+            "mdmInternalField": false,
+            "mdmIsDateOnly": false,
+            "mdmMappingDataType": "string",
+            "mdmMappings": [],
+            "mdmName": "airline_id",
+            "mdmRequiredBy": "",
+            "mdmSizeLimit": 2048,
+            "mdmSkipRuleIds": [],
+            "mdmSkipRules": [],
+            "mdmTags": []
+        },
+        {
+            "mdmCustomDescription": {},
+            "mdmCustomEnumValues": [],
+            "mdmCustomLabel": {
+                "en-US": "alias"
+            },
+            "mdmEnableAddressCleansing": false,
+            "mdmFieldSurvivorshipRuleIds": [
+                "dd23d14b08dd43968d60e0cc02ea757e"
+            ],
+            "mdmFieldSurvivorshipRules": [
+                {
+                    "mdmEntityTemplateId": "8582323cc61f499ca270ac53515d9e5d",
+                    "mdmEntityType": "mdmFieldSurvivorshipRule",
+                    "mdmFieldId": "e7a217e9e4474cd4b52e09c8f9883932",
+                    "mdmFunction": {
+                        "mdmDescription": {
+                            "en-US": "the most recent value",
+                            "pt-BR": "o valor mais recente"
+                        },
+                        "mdmEntityType": "mdmSurvivorshipFunction",
+                        "mdmId": "27439baa3c0bbf323ca50b46fb95ea51",
+                        "mdmLabel": {
+                            "en-US": "Recency"
+                        },
+                        "mdmName": "RECENCY",
+                        "mdmParameters": [],
+                        "mdmTenantId": "8cd6e43115e9416eb23609486fa053e3"
+                    },
+                    "mdmFunctionId": "27439baa3c0bbf323ca50b46fb95ea51",
+                    "mdmId": "dd23d14b08dd43968d60e0cc02ea757e",
+                    "mdmParameterValues": [],
+                    "mdmParentFieldId": "",
+                    "mdmState": "NOT_CHANGED",
+                    "mdmSurviveUsingFieldName": "",
+                    "mdmTenantId": "bca1007e136a4632a83dabd97879684c"
+                }
+            ],
+            "mdmFieldType": "PRIMITIVE",
+            "mdmFields": [],
+            "mdmFlagRuleIds": [],
+            "mdmFlagRules": [],
+            "mdmForeignKeyField": false,
+            "mdmHasMapping": false,
+            "mdmHasView": false,
+            "mdmHidden": false,
+            "mdmId": "e7a217e9e4474cd4b52e09c8f9883932",
+            "mdmInternalField": false,
+            "mdmIsDateOnly": false,
+            "mdmMappingDataType": "string",
+            "mdmMappings": [],
+            "mdmName": "alias",
+            "mdmRequiredBy": "",
+            "mdmSizeLimit": 2048,
+            "mdmSkipRuleIds": [],
+            "mdmSkipRules": [],
+            "mdmTags": []
+        },
+        {
+            "mdmCustomDescription": {
+                "en-US": "Country",
+                "pt-BR": "País"
+            },
+            "mdmCustomEnumValues": [],
+            "mdmCustomLabel": {
+                "en-US": "Country",
+                "pt-BR": "País"
+            },
+            "mdmEnableAddressCleansing": false,
+            "mdmFieldSurvivorshipRuleIds": [
+                "4f7876e373814bc3bdabdcb5a63b25ab"
+            ],
+            "mdmFieldSurvivorshipRules": [
+                {
+                    "mdmEntityTemplateId": "8582323cc61f499ca270ac53515d9e5d",
+                    "mdmEntityType": "mdmFieldSurvivorshipRule",
+                    "mdmFieldId": "1f7db0e383c54847b12f1853cb6ae142",
+                    "mdmFunction": {
+                        "mdmDescription": {
+                            "en-US": "the most recent value",
+                            "pt-BR": "o valor mais recente"
+                        },
+                        "mdmEntityType": "mdmSurvivorshipFunction",
+                        "mdmId": "27439baa3c0bbf323ca50b46fb95ea51",
+                        "mdmLabel": {
+                            "en-US": "Recency"
+                        },
+                        "mdmName": "RECENCY",
+                        "mdmParameters": [],
+                        "mdmTenantId": "8cd6e43115e9416eb23609486fa053e3"
+                    },
+                    "mdmFunctionId": "27439baa3c0bbf323ca50b46fb95ea51",
+                    "mdmId": "4f7876e373814bc3bdabdcb5a63b25ab",
+                    "mdmParameterValues": [],
+                    "mdmParentFieldId": "",
+                    "mdmState": "NOT_CHANGED",
+                    "mdmSurviveUsingFieldName": "",
+                    "mdmTenantId": "bca1007e136a4632a83dabd97879684c"
+                }
+            ],
+            "mdmFieldType": "PRIMITIVE",
+            "mdmFields": [],
+            "mdmFlagRuleIds": [],
+            "mdmFlagRules": [],
+            "mdmForeignKeyField": false,
+            "mdmHasMapping": false,
+            "mdmHasView": false,
+            "mdmHidden": false,
+            "mdmId": "1f7db0e383c54847b12f1853cb6ae142",
+            "mdmInternalField": false,
+            "mdmIsDateOnly": false,
+            "mdmMappingDataType": "string",
+            "mdmMappings": [],
+            "mdmName": "mdmcountry",
+            "mdmRequiredBy": "",
+            "mdmSizeLimit": 2048,
+            "mdmSkipRuleIds": [],
+            "mdmSkipRules": [],
+            "mdmTags": []
+        },
+        {
+            "mdmCustomDescription": {
+                "en-US": "Is Active",
+                "pt-BR": "Está ativa"
+            },
+            "mdmCustomEnumValues": [],
+            "mdmCustomLabel": {
+                "en-US": "Is Active",
+                "pt-BR": "Está ativa"
+            },
+            "mdmEnableAddressCleansing": false,
+            "mdmFieldSurvivorshipRuleIds": [
+                "40580025da7c4cee85adffc910a4041a"
+            ],
+            "mdmFieldSurvivorshipRules": [
+                {
+                    "mdmEntityTemplateId": "8582323cc61f499ca270ac53515d9e5d",
+                    "mdmEntityType": "mdmFieldSurvivorshipRule",
+                    "mdmFieldId": "00230d3ad3a44c61a621c51212020b85",
+                    "mdmFunction": {
+                        "mdmDescription": {
+                            "en-US": "the most recent value",
+                            "pt-BR": "o valor mais recente"
+                        },
+                        "mdmEntityType": "mdmSurvivorshipFunction",
+                        "mdmId": "27439baa3c0bbf323ca50b46fb95ea51",
+                        "mdmLabel": {
+                            "en-US": "Recency"
+                        },
+                        "mdmName": "RECENCY",
+                        "mdmParameters": [],
+                        "mdmTenantId": "8cd6e43115e9416eb23609486fa053e3"
+                    },
+                    "mdmFunctionId": "27439baa3c0bbf323ca50b46fb95ea51",
+                    "mdmId": "40580025da7c4cee85adffc910a4041a",
+                    "mdmParameterValues": [],
+                    "mdmParentFieldId": "",
+                    "mdmState": "NOT_CHANGED",
+                    "mdmSurviveUsingFieldName": "",
+                    "mdmTenantId": "bca1007e136a4632a83dabd97879684c"
+                }
+            ],
+            "mdmFieldType": "PRIMITIVE",
+            "mdmFields": [],
+            "mdmFlagRuleIds": [],
+            "mdmFlagRules": [],
+            "mdmForeignKeyField": false,
+            "mdmHasMapping": false,
+            "mdmHasView": false,
+            "mdmHidden": false,
+            "mdmId": "00230d3ad3a44c61a621c51212020b85",
+            "mdmInternalField": false,
+            "mdmIsDateOnly": false,
+            "mdmMappingDataType": "boolean",
+            "mdmMappings": [],
+            "mdmName": "mdmisactive",
+            "mdmRequiredBy": "",
+            "mdmSizeLimit": 2048,
+            "mdmSkipRuleIds": [],
+            "mdmSkipRules": [],
+            "mdmTags": []
+        },
+        {
+            "mdmCustomDescription": {
+                "en-US": "Name"
+            },
+            "mdmCustomEnumValues": [],
+            "mdmCustomLabel": {
+                "en-US": "Name"
+            },
+            "mdmEnableAddressCleansing": false,
+            "mdmFieldSurvivorshipRuleIds": [
+                "16f917c8be144ef0ac1b2bc4c078c353"
+            ],
+            "mdmFieldSurvivorshipRules": [
+                {
+                    "mdmEntityTemplateId": "8582323cc61f499ca270ac53515d9e5d",
+                    "mdmEntityType": "mdmFieldSurvivorshipRule",
+                    "mdmFieldId": "254911e4a60e4a77a85c12bf45e0536d",
+                    "mdmFunction": {
+                        "mdmDescription": {
+                            "en-US": "the most recent value",
+                            "pt-BR": "o valor mais recente"
+                        },
+                        "mdmEntityType": "mdmSurvivorshipFunction",
+                        "mdmId": "27439baa3c0bbf323ca50b46fb95ea51",
+                        "mdmLabel": {
+                            "en-US": "Recency"
+                        },
+                        "mdmName": "RECENCY",
+                        "mdmParameters": [],
+                        "mdmTenantId": "8cd6e43115e9416eb23609486fa053e3"
+                    },
+                    "mdmFunctionId": "27439baa3c0bbf323ca50b46fb95ea51",
+                    "mdmId": "16f917c8be144ef0ac1b2bc4c078c353",
+                    "mdmParameterValues": [],
+                    "mdmParentFieldId": "",
+                    "mdmState": "NOT_CHANGED",
+                    "mdmSurviveUsingFieldName": "",
+                    "mdmTenantId": "bca1007e136a4632a83dabd97879684c"
+                }
+            ],
+            "mdmFieldType": "PRIMITIVE",
+            "mdmFields": [],
+            "mdmFlagRuleIds": [],
+            "mdmFlagRules": [],
+            "mdmForeignKeyField": false,
+            "mdmHasMapping": false,
+            "mdmHasView": false,
+            "mdmHidden": false,
+            "mdmId": "254911e4a60e4a77a85c12bf45e0536d",
+            "mdmInternalField": false,
+            "mdmIsDateOnly": false,
+            "mdmMappingDataType": "string",
+            "mdmMappings": [],
+            "mdmName": "name",
+            "mdmRequiredBy": "",
+            "mdmSizeLimit": 2048,
+            "mdmSkipRuleIds": [],
+            "mdmSkipRules": [],
+            "mdmTags": []
+        }
+    ],
+    "fieldsFull": {
+        "mdmisactive": {
+            "mdmAnalyzer": "standard",
+            "mdmDescription": {
+                "en-US": "Is Active",
+                "pt-BR": "Está ativa"
+            },
+            "mdmEntityType": "mdmField",
+            "mdmEnumValues": [],
+            "mdmFieldType": "PRIMITIVE",
+            "mdmFields": [],
+            "mdmFieldsFull": {},
+            "mdmForeignKeyField": false,
+            "mdmHidden": false,
+            "mdmId": "00230d3ad3a44c61a621c51212020b85",
+            "mdmIndex": "not_analyzed",
+            "mdmInternalField": false,
+            "mdmIsDateOnly": false,
+            "mdmIsGlobalField": true,
+            "mdmLabel": {
+                "en-US": "Is Active",
+                "pt-BR": "Está ativa"
+            },
+            "mdmMappingDataType": "boolean",
+            "mdmName": "mdmisactive",
+            "mdmSizeLimit": 2048,
+            "mdmTags": [],
+            "mdmTenantId": "bca1007e136a4632a83dabd97879684c"
+        },
+        "mdmcountry": {
+            "mdmAnalyzer": "standard",
+            "mdmDescription": {
+                "en-US": "Country",
+                "pt-BR": "País"
+            },
+            "mdmEntityType": "mdmField",
+            "mdmEnumValues": [],
+            "mdmFieldType": "PRIMITIVE",
+            "mdmFields": [],
+            "mdmFieldsFull": {},
+            "mdmForeignKeyField": false,
+            "mdmHidden": false,
+            "mdmId": "1f7db0e383c54847b12f1853cb6ae142",
+            "mdmIndex": "analyzed",
+            "mdmInternalField": false,
+            "mdmIsDateOnly": false,
+            "mdmIsGlobalField": true,
+            "mdmLabel": {
+                "en-US": "Country",
+                "pt-BR": "País"
+            },
+            "mdmMappingDataType": "string",
+            "mdmName": "mdmcountry",
+            "mdmSizeLimit": 2048,
+            "mdmTags": [],
+            "mdmTenantId": "bca1007e136a4632a83dabd97879684c"
+        },
+        "name": {
+            "mdmAnalyzer": "standard",
+            "mdmDescription": {
+                "en-US": "Name"
+            },
+            "mdmEntityType": "mdmField",
+            "mdmEnumValues": [],
+            "mdmFieldType": "PRIMITIVE",
+            "mdmFields": [],
+            "mdmFieldsFull": {},
+            "mdmForeignKeyField": false,
+            "mdmHidden": false,
+            "mdmId": "254911e4a60e4a77a85c12bf45e0536d",
+            "mdmIndex": "analyzed",
+            "mdmInternalField": false,
+            "mdmIsDateOnly": false,
+            "mdmLabel": {
+                "en-US": "Name"
+            },
+            "mdmMappingDataType": "string",
+            "mdmName": "name",
+            "mdmSizeLimit": 2048,
+            "mdmTags": [],
+            "mdmTenantId": "bca1007e136a4632a83dabd97879684c"
+        },
+        "airline_id": {
+            "mdmAnalyzer": "standard",
+            "mdmDescription": {},
+            "mdmEntityType": "mdmField",
+            "mdmEnumValues": [],
+            "mdmFieldType": "PRIMITIVE",
+            "mdmFields": [],
+            "mdmFieldsFull": {},
+            "mdmForeignKeyField": false,
+            "mdmHidden": false,
+            "mdmId": "3f49f901b40c4742a35c2ddc4e25e029",
+            "mdmIndex": "analyzed",
+            "mdmInternalField": false,
+            "mdmIsDateOnly": false,
+            "mdmLabel": {
+                "en-US": "Airline_ID"
+            },
+            "mdmMappingDataType": "string",
+            "mdmName": "airline_id",
+            "mdmSizeLimit": 2048,
+            "mdmTags": [],
+            "mdmTenantId": "bca1007e136a4632a83dabd97879684c"
+        },
+        "alias": {
+            "mdmAnalyzer": "standard",
+            "mdmDescription": {},
+            "mdmEntityType": "mdmField",
+            "mdmEnumValues": [],
+            "mdmFieldType": "PRIMITIVE",
+            "mdmFields": [],
+            "mdmFieldsFull": {},
+            "mdmForeignKeyField": false,
+            "mdmHidden": false,
+            "mdmId": "e7a217e9e4474cd4b52e09c8f9883932",
+            "mdmIndex": "analyzed",
+            "mdmInternalField": false,
+            "mdmIsDateOnly": false,
+            "mdmLabel": {
+                "en-US": "alias"
+            },
+            "mdmMappingDataType": "string",
+            "mdmName": "alias",
+            "mdmSizeLimit": 2048,
+            "mdmTags": [],
+            "mdmTenantId": "bca1007e136a4632a83dabd97879684c"
+        }
+    },
+    "groupName": "openflights",
+    "label": {
+        "en-US": "Airlines"
+    },
+    "mdmClusterAndPartitioningBqOptions": {
+        "mdmClusteringBqOptions": {
+            "fieldsSelected": [
+                {
+                    "name": "mdmTenantId",
+                    "type": "string"
+                },
+                {
+                    "name": "mdmId",
+                    "type": "string"
+                },
+                {
+                    "name": "mdmCounterForEntity",
+                    "type": "long"
+                }
+            ]
+        },
+        "mdmDefaultBqOptions": true,
+        "mdmPartitionBqOptions": {
+            "fieldName": "mdmCounterForEntity__DATETIME__",
+            "fieldType": "date",
+            "partitionedBy": "TIME_UNIT_COLUMN",
+            "unitTime": "DAILY"
+        }
+    },
+    "profileTitleFields": [],
+    "snapshotCreationTime": "2022-12-22T13:37:59.967Z",
+    "storageTypes": {},
+    "tags": [],
+    "verticals": [
+        {
+            "mdmDescription": {
+                "en-US": "Services",
+                "pt-BR": "Serviços"
+            },
+            "mdmEntityType": "mdmVertical",
+            "mdmId": "1fece0cb254f1f45891bc9ee9fed72a9",
+            "mdmName": "crm",
+            "mdmTenantId": "8cd6e43115e9416eb23609486fa053e3"
+        }
+    ]
+}
