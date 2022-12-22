@@ -74,7 +74,7 @@ Com toda a estrutura de dados (stagings, datamodels e pipelines) criados no noss
 
 É importante vincularmos nosso Carol App a um repositório no Github, assim as pipelines irão aparecer no nosso tenant e em todos os tenants com o App instalado, para que sejam processadas. Para isso, é necessário logar com o Github e apontar para um repositório, além de ter um arquivo pipelines.json dentro dele, que será solicitado para que a Carol encontre as pipelines, quais dados de stagings serão usados em cada pipeline e qual datamodel será populado em cada pipeline. Há um arquivo nesse repositório que serve de exemplo e já funciona com a estrutura desse projeto, caso tenha seguido todos os passos até aqui.
 
-Realize a release do Carol App. O Carol App criado nesse desafio foi [este](https://datascience.carol.ai/brenopapa/carol-ui/carol-app-dev/569034f7a61046aba9230cbc17c025af/overview)
+Realize a release do Carol App. O Carol App criado nesse desafio foi [este](https://datascience.carol.ai/brenopapa/carol-ui/carol-app-dev/569034f7a61046aba9230cbc17c025af/overview).
 
 ✅ CAROL APP CRIADO ✅
 
