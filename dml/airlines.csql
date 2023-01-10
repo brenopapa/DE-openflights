@@ -1,7 +1,7 @@
 WITH airlines_airlines AS (
   SELECT
     Airline_ID AS airline_id,
-    Name AS name,
+    upper(Name) AS name,
     NULLIF(TRIM(Alias),'\\N') AS alias,
     Country AS mdmcountry,
     IF(Active = 'Y', TRUE, FALSE) AS mdmisactive
