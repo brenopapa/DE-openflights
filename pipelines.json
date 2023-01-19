@@ -200,6 +200,10 @@
                     {
                         "connectorName": "myconnector",
                         "stagingName": "customstaging"
+                    },
+                    {
+                        "connectorName": "myconnector",
+                        "stagingName": "changedatatype"
                     }
                 ]
             }
