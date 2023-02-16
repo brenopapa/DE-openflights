@@ -1,0 +1,12 @@
+CREATE FUNCTION `carol-b498737fc9db4fc8bb06.b498737fc9db4fc8bb06ff582edfb8aa`.GetTypeEnvironment(tpAmb INT64)
+RETURNS STRING 
+AS (
+    CASE
+        WHEN tpAmb = 1 THEN "Produção"
+        WHEN tpAmb = 2 THEN "Produção restrita"
+        WHEN tpAmb = 7 THEN "Validação"
+        WHEN tpAmb = 8 THEN "Teste"
+        WHEN tpAmb = 9 THEN "Desenvolvimento"
+        ELSE "Unknown"
+    END
+);

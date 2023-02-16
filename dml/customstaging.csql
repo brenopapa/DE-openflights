@@ -1,7 +1,7 @@
 WITH customstaging_customstaging AS (
   SELECT
     code AS code,
-    `b498737fc9db4fc8bb06ff582edfb8aa`.GetTypeEnvironment(1) AS description
+    `carol-b498737fc9db4fc8bb06.b498737fc9db4fc8bb06ff582edfb8aa`.GetTypeEnvironment(1) AS description
     --metadata--
   FROM (
     SELECT * EXCEPT(ranking)
