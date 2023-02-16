@@ -155,7 +155,7 @@
             "timeZone": "America/Sao_Paulo",
             "prepareScripts":
             [
-                ""
+                "scripts/BasePrepare3.csql"
             ],
             "processScript": "dml/routes.csql",
             "sourceEntities":
