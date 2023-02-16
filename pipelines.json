@@ -7,7 +7,7 @@
         ],
         "prepareScripts":
         [
-            ""
+            "scripts/BasePrepare.csql"
         ]
     },
     "pipelines":
