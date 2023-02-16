@@ -188,7 +188,7 @@
             "timeZone": "America/Sao_Paulo",
             "prepareScripts":
             [
-                ""
+                "scripts/BasePrepare2.csql"
             ],
             "processScript": "dml/customstaging.csql",
             "sourceEntities":
