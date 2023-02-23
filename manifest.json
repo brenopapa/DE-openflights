@@ -5,9 +5,9 @@
     },
     "pipelines": [
       {
-        "pipelineName": "routes",
-        "pipelineDescription": "Pipeline para processar dados de Routes",
-        "outputDataModelName": "routes",
+        "pipelineName": "planes",
+        "pipelineDescription": "Pipeline para processar dados de Planes",
+        "outputDataModelName": "planes",
         "overlapDeltaMinutes": 3600,
         "saveToCds": true,
         "saveToUnified": true,
@@ -21,7 +21,7 @@
         [
             "scripts/BasePrepare3.csql"
         ],
-        "processScript": "dml/routes.csql",
+        "processScript": "dml/planes.csql",
         "sourceEntities":
         {
             "dataModels":
