@@ -5,30 +5,37 @@
     },
     "pipelines": [
       {
-        "pipelineName": "HR Platform Subsidiary",
-        "pipelineDescription": "",
+        "pipelineName": "routes",
+        "pipelineDescription": "Pipeline para processar dados de Routes",
         "outputDataModelName": "routes",
-        "cronExpressions": ["0 0 7,19 ? * * *"],
-        "overlapDeltaMinutes": 1440,
-        "saveToCds": false,
+        "overlapDeltaMinutes": 3600,
+        "saveToCds": true,
         "saveToUnified": true,
-        "saveToRealtime": false,
         "sendToSubscriptions": true,
-        "timeZone": "America/Sao_Paulo",
-        "prepareScripts": [
-            "Pipelines/BasePrepare.csql"
+        "cronExpressions":
+        [
+            "0 5,15,25,35,45,56 * * * ?"
         ],
-        "processScript": "Pipelines/Subsidiary.csql",
-        "sourceEntities": {
-          "dataModels": [],
-          "stagings": [
-            {
-              "connectorName": "myconnector",
-              "stagingName": "routes"
-            }
-          ]
+        "timeZone": "America/Sao_Paulo",
+        "prepareScripts":
+        [
+            "scripts/BasePrepare3.csql"
+        ],
+        "processScript": "dml/routes.csql",
+        "sourceEntities":
+        {
+            "dataModels":
+            [
+            ],
+            "stagings":
+            [
+                {
+                    "connectorName": "myconnector",
+                    "stagingName": "routes"
+                }
+            ]
         }
-      }
+    }
     ]
   }
   
