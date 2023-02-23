@@ -1,0 +1,101 @@
+CREATE TEMP FUNCTION GetRMDepartmentId(mdmTenantId STRING, CodColigada INT64, Codigo STRING)
+RETURNS STRING
+AS (
+    TO_HEX(MD5(LOWER(CONCAT(
+        mdmTenantId,
+        'Department{',
+            '"CodColigada":"', CodColigada, '",',
+            '"Codigo":"', Codigo, '",',
+            '"ERP":"RM",',
+        '}'
+    ))))
+);
+
+CREATE TEMP FUNCTION GetRMSubsidiaryId(mdmTenantId STRING, CodColigada INT64, Codigo STRING)
+RETURNS STRING
+AS (
+    TO_HEX(MD5(LOWER(CONCAT(
+        mdmTenantId,
+        'Subsidiary{',
+            '"CodColigada":"', CodColigada, '",',
+            '"Codigo":"', Codigo, '",',
+            '"ERP":"RM",',
+        '}'
+    ))))
+);
+
+
+WITH lk_rm_psecao AS (
+    SELECT 
+        stg.Codigo,
+        stg.CodColigada,
+        stg.CGC,
+        stg.Descricao,
+        stg.Tenant,
+        stg.mdmDeleted,
+        --metadataNoId--
+    FROM (
+        SELECT 
+            * EXCEPT(ranking)
+        FROM (
+            SELECT ROW_NUMBER() OVER (partition BY mdmId ORDER BY mdmCounterForEntity DESC) ranking, *
+            FROM stg_rm_carol_psecao
+            --timestamp-- WHERE mdmCounterForEntity > {{start_from}}
+        )
+        WHERE 
+            ranking = 1
+    ) AS stg
+    WHERE
+        stg.Codigo IS NOT NULL
+        AND stg.CGC IS NOT NULL
+),
+
+
+lk_rm_pparam AS (
+    SELECT 
+        stg.CodColigada,
+        LENGTH(stg.CodigoQuebraSecao) AS TamanhoCodigo
+        --metadataNoId--
+    FROM 
+        deduplicated_stg_rm_carol_pparam AS stg
+    WHERE 
+        stg.CodigoQuebraSecao IS NOT NULL
+),
+
+
+lk_rm_department AS (
+    SELECT 
+        stg.Codigo,
+        stg.CodColigada,
+        stg.Descricao,
+        stg.Tenant,
+        ppa.TamanhoCodigo,
+        (stg.mdmDeleted IS NOT NULL AND stg.mdmDeleted = TRUE) AS mdmDeleted,
+        stg.__mdmTenantId,
+        stg.__mdmCounterForEntity,
+        ARRAY_CONCAT(stg.__mdmStagingRecordIds, ppa.__mdmStagingRecordIds) AS __mdmStagingRecordIds,
+        ARRAY_CONCAT(stg.__mdmSourceEntityNames, ppa.__mdmSourceEntityNames) AS __mdmSourceEntityNames
+    FROM 
+        lk_rm_psecao AS stg
+        INNER JOIN lk_rm_pparam AS ppa
+            ON ppa.__mdmTenantId = stg.__mdmTenantId
+                AND ppa.CodColigada = stg.CodColigada
+    ORDER BY 
+        stg.__mdmTenantId, 
+        stg.CodColigada,
+        stg.Codigo
+)
+
+SELECT 
+    lk.Descricao as `Name`,
+    GetRMSubsidiaryId(lk.__mdmTenantId, lk.CodColigada, SUBSTR(lk.Codigo, 0, lk.TamanhoCodigo)) as SubsidiaryId,
+    GetRMDepartmentId(lk.__mdmTenantId, lk.CodColigada, lk.Codigo) AS Id,
+    GetRMDepartmentId(lk.__mdmTenantId, lk.CodColigada, lk.Codigo) AS __mdmId,
+    lk.Tenant as RACTenantId,
+    lk.mdmDeleted,
+    lk.__mdmTenantId,
+    lk.__mdmCounterForEntity,
+    lk.__mdmStagingRecordIds,
+    lk.__mdmSourceEntityNames,
+FROM 
+    lk_rm_department as lk

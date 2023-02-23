@@ -1,0 +1,292 @@
+CREATE TEMP FUNCTION GetPersonId(mdmTenantId STRING, CodPessoa INT64) 
+RETURNS STRING
+AS (
+    TO_HEX(MD5(LOWER(CONCAT(
+        mdmTenantId,
+        'Person{',
+            '"Codigo":"', CodPessoa, '",',
+            '"ERP":"RM",',
+        '}'
+    ))))
+);
+
+CREATE TEMP FUNCTION GetMaritalStatus(EstadoCivil STRING)
+RETURNS STRUCT<Code INT64, Label STRING>
+AS (
+    CASE
+        WHEN UPPER(EstadoCivil) = 'S' THEN (1 ,'Single')
+        WHEN UPPER(EstadoCivil) = 'C' THEN (2 ,'Married')
+        WHEN UPPER(EstadoCivil) = 'V' THEN (5 ,'Widower')
+        WHEN UPPER(EstadoCivil) = 'E' THEN (0 ,'StableUnion')
+        WHEN UPPER(EstadoCivil) = 'I' THEN (3 ,'Divorced')
+        WHEN UPPER(EstadoCivil) = 'D' THEN (3 ,'Unmarried')
+        WHEN UPPER(EstadoCivil) = 'P' THEN (4 ,'Separated')
+        ELSE (0 ,"Others")
+        END
+);
+
+
+CREATE TEMP FUNCTION GetEthnicity(ethnicity INT64)
+RETURNS STRUCT<Code INT64, Label STRING>
+AS (
+    CASE
+        WHEN ethnicity = 0 THEN (5 , 'Indigena')
+        WHEN ethnicity = 2 THEN (1 , 'Branca')
+        WHEN ethnicity = 4 THEN (2 , 'Negra')
+        WHEN ethnicity = 6 THEN (4 , 'Amarela')
+        WHEN ethnicity = 8 THEN (3 , 'Parda')        
+        ELSE STRUCT( 6, 'Unknown')
+        END
+);
+
+CREATE TEMP FUNCTION GetPhone(Telefone1 STRING, Telefone2 STRING)
+RETURNS STRING
+AS (
+    CASE
+        WHEN LENGTH(TRIM(Telefone1)) != 0 THEN TRIM(Telefone1)
+        ELSE TRIM(Telefone2)
+        END
+);
+
+CREATE TEMP FUNCTION ConvertDateTimeToDate(ValueDateTime DATETIME)
+RETURNS DATE
+AS (
+    CASE
+        WHEN EXTRACT(YEAR FROM ValueDateTime) = 0001 OR ValueDateTime IS NULL THEN NULL
+        ELSE EXTRACT(DATE FROM ValueDateTime)
+        END
+);
+
+CREATE TEMP FUNCTION GetGenericHasDeficiency ( deficiency INT64)
+RETURNS STRING
+AS (
+    CASE
+        WHEN deficiency = 0 THEN 'N'
+        WHEN deficiency = 1 THEN 'S'
+        ELSE NULL
+        END
+);
+
+CREATE TEMP FUNCTION GetIdentificationDocument
+    (DocumentNumber STRING, Issuer STRING, IssuerState STRING, IssueDate DATETIME, DocumentType STRING)
+AS (
+    CASE
+        WHEN LENGTH(DocumentNumber) > 0 OR LENGTH(Issuer) > 0 OR LENGTH(IssuerState) > 0 OR IssueDate IS NOT NULL
+        THEN [STRUCT(
+            DocumentNumber AS `Number`,
+            Issuer AS `Issuer`,
+            IssuerState AS `IssuerState`,
+            ConvertDateTimeToDate(IssueDate) AS `HRIssueDate`,
+            DocumentType AS `DocumentType`
+        )]
+        ELSE []
+        END
+);
+
+
+CREATE TEMP FUNCTION GetEducationlevel ( educationLevel STRING)
+RETURNS STRUCT<Code INT64, Label STRING>
+AS (
+    CASE
+        WHEN educationLevel = "1" THEN (1 , 'Analfabeto, inclusive o que, embora tenha recebido instrução, não se alfabetizou')
+        WHEN educationLevel = "2" THEN (2 , 'Até o 5º ano incompleto do Ensino Fundamental (antiga 4ª série) ou que se tenha alfabetizado sem ter frequentado escola regular')
+        WHEN educationLevel = "3" THEN (3 , '5º ano completo do Ensino Fundamental')
+        WHEN educationLevel = "4" THEN (4 , 'Do 6º ao 9º ano do Ensino Fundamental incompleto (antiga 5ª a 8ª série)')
+        WHEN educationLevel = "5" THEN (5 , 'Ensino Fundamental Completo')
+        WHEN educationLevel = "6" THEN (6 , 'Ensino Médio incompleto')
+        WHEN educationLevel = "7" THEN (7 , 'Ensino Médio completo')
+        WHEN educationLevel = "8" THEN (8 , 'Educação Superior incompleta')
+        WHEN educationLevel IN ("9","A","C") THEN (9 , 'Educação Superior completa')
+        WHEN educationLevel = "B" THEN (10 , 'Pós-graduação completa')
+        WHEN educationLevel IN ("D","E") THEN (11 , 'Mestrado completo')
+        WHEN educationLevel IN ("F","G","H") THEN (12 , 'Doutorado completo')
+        ELSE ( 0, 'Unknown')
+        END
+);
+
+
+WITH tempTableRmConnectorPpessoa AS (
+    SELECT 
+        stg.Codigo,
+        REGEXP_REPLACE(stg.CPF, '[^0-9]', '') AS CPF,
+        stg.Nome,
+        stg.DtNascimento,
+        stg.EstadoCivil,
+        stg.EmailPessoal,
+        stg.Telefone1,
+        stg.Telefone2,
+        stg.CodTipoRua,
+        stg.Estado,
+        stg.CodMunicipio,
+        stg.Rua,
+        stg.Numero,
+        stg.Complemento,
+        stg.Bairro,
+        stg.Cidade,
+        stg.Cep, 
+        stg.CartIdentidade, 
+        stg.OrgEmissorIdent, 
+        stg.UFCartIdent, 
+        stg.DtEmissaoIdent,
+        stg.CartMotorista, 
+        stg.OrgEmissorCnh, 
+        stg.UfCnh, 
+        stg.DtEmissaoCnh,    
+        stg.Sexo,
+        stg.CorRaca,
+        stg.GrauInstrucao,    
+        stg.NomeSocial,
+        stg.TipoPrazoResidencia,
+        stg.CodClassifTrabEstrang,
+        stg.DeficienteFisico,
+        stg.DeficienteVisual, 
+        stg.DeficienteAuditivo, 
+        stg.DeficienteMental, 
+        stg.DeficienteIntelectual, 
+        stg.BrpDh, 
+        stg.RecursoREalizacaoTrab, 
+        stg.RecursoAcessibilidade,    
+        stg.EstadoNatal,
+        stg.Nacionalidade,    
+        stg.mdmDeleted,
+        --metadataNoId--
+    FROM (
+        SELECT 
+            * EXCEPT(ranking)
+        FROM (
+            SELECT ROW_NUMBER() OVER (PARTITION BY mdmId ORDER BY mdmCounterForEntity DESC) ranking, *
+            FROM stg_rm_carol_ppessoa
+        )
+        WHERE 
+            ranking = 1        
+    ) AS stg
+    WHERE
+        stg.Codigo IS NOT NULL
+        AND stg.CPF IS NOT NULL
+    ORDER BY
+        Codigo
+),
+
+tempTableRmConnectorDTipoRua AS (
+    SELECT 
+            * EXCEPT(ranking)
+        FROM (
+            SELECT 
+                ROW_NUMBER() OVER (PARTITION BY mdmId ORDER BY mdmCounterForEntity DESC) ranking,
+                stg.Codigo,
+                stg.Descricao,
+                --metadataNoId--
+            FROM 
+            stg_rm_carol_dtiporua AS stg
+        )
+        WHERE 
+            ranking = 1    
+),
+
+
+tempTableRmConnectorGmunicipio AS (
+    SELECT 
+            * EXCEPT(ranking)
+        FROM (
+            SELECT 
+                ROW_NUMBER() OVER (partition BY mdmId ORDER BY mdmCounterForEntity DESC) ranking,
+                stg.CodMunicipio,
+                stg.CodeTdMunicipio,
+                stg.NomeMunicipio,
+                --metadataNoId--
+            FROM 
+            stg_rm_carol_gmunicipio AS stg
+        )
+        WHERE 
+            ranking = 1    
+),
+
+tempTableRmConnectorPcodnacao AS (
+    SELECT 
+            * EXCEPT(ranking)
+        FROM (
+            SELECT 
+                ROW_NUMBER() OVER (partition BY mdmId ORDER BY mdmCounterForEntity DESC) ranking,
+                stg.CodCliente,
+                stg.Descricao,
+                --metadataNoId--
+            FROM 
+            stg_rm_carol_pcodnacao AS stg
+        )
+        WHERE 
+            ranking = 1    
+)
+
+
+SELECT
+    GetPersonId(TempPpessoa.__mdmTenantId, TempPpessoa.Codigo) AS Id,
+    GetPersonId(TempPpessoa.__mdmTenantId, TempPpessoa.Codigo) AS __mdmId,
+    TempPpessoa.Cpf AS Cpf,
+    TempPpessoa.Nome AS FullName,
+    TempPpessoa.NomeSocial AS SocialName,
+    STRUCT(
+            TempPpessoa.Rua AS Street,
+            TempPpessoa.Numero AS `Number`,
+            TempPpessoa.Complemento AS AddOn,
+            TempPpessoa.Bairro AS Neighborhood,
+            TempPpessoa.Cidade AS City,
+            TempPpessoa.Estado AS `State`,
+            TempPpessoa.Cep AS ZipCode,
+            TempGmunicipio.NomeMunicipio AS County,
+            TempDTipoRua.Descricao AS StreetType
+    ) AS `Address`,
+    TempPpessoa.Sexo,
+    TempPpessoa.EstadoNatal AS PaisNascto,
+    TempCodnacao.Descricao AS PaisNac,
+    GetEthnicity(TempPpessoa.CorRaca) AS RacaCor ,
+    GetEducationlevel(TempPpessoa.GrauInstrucao) AS GrauInstr,    
+    TempPpessoa.NomeSocial AS NmSoc,
+    TempPpessoa.TipoPrazoResidencia AS TmpResid,
+    TempPpessoa.CodClassifTrabEstrang AS CondIng,
+    GetGenericHasDeficiency(TempPpessoa.DeficienteFisico) AS DefFisica,
+    GetGenericHasDeficiency(TempPpessoa.DeficienteVisual) AS DefVisual ,
+    GetGenericHasDeficiency(TempPpessoa.DeficienteAuditivo) AS DefAuditiva,
+    GetGenericHasDeficiency(TempPpessoa.DeficienteMental) AS DefMental,
+    GetGenericHasDeficiency(TempPpessoa.DeficienteIntelectual) AS DefIntelectual,
+    TempPpessoa.BrpDh AS ReabReadap, 
+    CONCAT(TempPpessoa.RecursoREalizacaoTrab, ' ',TempPpessoa.RecursoAcessibilidade) AS Observacao,   
+    ARRAY_CONCAT(
+        GetIdentificationDocument(
+            TempPpessoa.CartIdentidade, 
+            TempPpessoa.OrgEmissorIdent, 
+            TempPpessoa.UFCartIdent, 
+            TempPpessoa.DtEmissaoIdent, 
+            'RG'
+        ),
+        GetIdentificationDocument(
+            TempPpessoa.CartMotorista, 
+            TempPpessoa.OrgEmissorCNH, 
+            TempPpessoa.UfCnh, 
+            TempPpessoa.DtEmissaoCNH, 
+            'CNH'
+        )
+    ) AS Documents,
+    ConvertDateTimeToDate(TempPpessoa.DtNascimento) AS DtNascto,
+    GetMaritalStatus(TempPpessoa.EstadoCivil) AS EstCiv,
+    TempPpessoa.EmailPessoal AS Email,
+    GetPhone(TempPpessoa.Telefone1, TempPpessoa.Telefone2) AS Phone,
+    (TempPpessoa.mdmDeleted IS NOT NULL AND TempPpessoa.mdmDeleted = TRUE) AS mdmDeleted,
+    TempPpessoa.__mdmTenantId,
+    TempPpessoa.__mdmCounterForEntity,
+    TempPpessoa.__mdmStagingRecordIds,
+    TempPpessoa.__mdmSourceEntityNames
+FROM
+    tempTableRmConnectorPpessoa AS TempPpessoa
+    
+    LEFT JOIN tempTableRmConnectorDTipoRua AS TempDTipoRua
+        ON TempDTipoRua.Codigo = TempPpessoa.CodTipoRua
+            AND TempDTipoRua.__mdmTenantId = TempPpessoa.__mdmTenantId
+    
+    LEFT JOIN tempTableRmConnectorGmunicipio AS TempGmunicipio
+        ON TempGmunicipio.CodMunicipio = TempPpessoa.CodMunicipio
+            AND TempGmunicipio.CodeTdMunicipio = TempPpessoa.Estado
+            AND TempGmunicipio.__mdmTenantId = TempPpessoa.__mdmTenantId
+
+    LEFT JOIN tempTableRmConnectorPcodnacao AS TempCodnacao
+        ON TempCodnacao.CodCliente = TempPpessoa.Nacionalidade
+            AND TempCodnacao.__mdmTenantId = TempPpessoa.__mdmTenantId

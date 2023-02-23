@@ -1,0 +1,455 @@
+CREATE TEMP FUNCTION GetTaxAllotmentId(mdmTenantId STRING, codColigada INT64 , codlotacao STRING)
+RETURNS STRING
+AS (
+    TO_HEX(MD5(LOWER(CONCAT(
+        mdmTenantId,
+        'Lotacao{',
+            '"CodigoColigada":"', codColigada, '",',
+            '"CodigoLotacao":"', codlotacao, '",',
+            '"ERP":"RM",',
+        '}'
+    ))))
+);
+
+CREATE TEMP FUNCTION GetEstabId(mdmTenantId STRING, codColigada INT64 , codSecao STRING)
+RETURNS STRING
+AS (
+    TO_HEX(MD5(LOWER(CONCAT(
+        mdmTenantId,
+        'Secao{',
+            '"CodigoColigada":"', codColigada, '",',
+            '"CodigoSecao":"', codSecao, '",',
+            '"ERP":"RM",',
+        '}'
+    ))))
+);
+
+CREATE TEMP FUNCTION GetTypeEnvironment(tpAmb INT64)
+RETURNS STRUCT<Code INT64, Label STRING>
+AS (
+    CASE 
+        WHEN tpAmb = 1 THEN STRUCT( 1 , 'Produção' ) 
+        WHEN tpAmb = 2 THEN STRUCT( 2 , 'Produção restrita' ) 
+        WHEN tpAmb = 7 THEN STRUCT( 7 , 'Validação' ) 
+        WHEN tpAmb = 8 THEN STRUCT( 8 , 'Teste' ) 
+        WHEN tpAmb = 9 THEN STRUCT( 9 , 'Desenvolvimento')
+        ELSE STRUCT( 0 , 'Unknown'  )
+    END
+);
+
+
+CREATE TEMP FUNCTION GetProcessIssuanceEvent(codProcesso INT64)
+RETURNS STRUCT<Code INT64, Label STRING>
+AS(
+    CASE
+        WHEN codProcesso = 1 THEN STRUCT( 1 , 'Aplicativo do empregador' ) 
+        WHEN codProcesso = 2 THEN STRUCT( 2 , 'Aplicativo governamental - Simplificado Pessoa Física' ) 
+        WHEN codProcesso = 3 THEN STRUCT( 3 , 'Aplicativo governamental - Web Geral' ) 
+        WHEN codProcesso = 4 THEN STRUCT( 4 , 'Aplicativo governamental - Simplificado Pessoa Jurídica' ) 
+        WHEN codProcesso = 9 THEN STRUCT( 9 , 'Aplicativo governamental - Integração com a Junta Comercial' ) 
+        WHEN codProcesso = 22 THEN STRUCT( 22 , 'Aplicativo governamental para dispositivos móveis - Empregador Doméstico' ) 
+        ELSE STRUCT( 0 , 'Unknown'  )
+    END    
+);
+
+
+CREATE TEMP FUNCTION GetRegistrationType(codProcesso INT64)
+RETURNS STRUCT<Code INT64, Label STRING>
+AS(
+    CASE
+        WHEN codProcesso = 1 THEN STRUCT( 1 , 'CNPJ' ) 
+        WHEN codProcesso = 2 THEN STRUCT( 2 , 'CPF' ) 
+        ELSE STRUCT( 0 , 'Unknown'  )
+    END    
+);
+
+
+CREATE TEMP FUNCTION GetAllotmentCode(usaTomador BOOL, codSecao STRING, codLotacao STRING)
+RETURNS STRING
+AS (
+    CASE 
+       WHEN usaTomador = FALSE THEN codSecao
+       WHEN usaTomador = TRUE THEN codLotacao
+       ELSE "Unknown"
+    END
+);
+
+
+CREATE TEMP FUNCTION GetAllotmentType(usaTomador BOOL, codeSec STRING, labelSec STRING, codeTrb STRING, labelTrb STRING)
+RETURNS  STRUCT<Code STRING, Label STRING>
+AS (
+     
+    CASE 
+       WHEN usaTomador = FALSE THEN STRUCT(codeSec,labelSec)
+       WHEN usaTomador = TRUE  THEN STRUCT(codeTrb,labelTrb)
+    END
+);
+
+
+CREATE TEMP FUNCTION GetAllotmentEnrollmentType(tipoLotacao STRING)
+RETURNS STRUCT<Code INT64, Label STRING>
+AS (
+    CASE 
+        WHEN tipoLotacao IN ( "01", "10", "21", "24", "90")  THEN STRUCT( 0 , 'Unknown'  )
+        WHEN tipoLotacao IN ( "04", "05", "06", "08" , "09" )  THEN  STRUCT( 1 , 'CNPJ' ) 
+        WHEN tipoLotacao IN ( "03", "07")  THEN STRUCT( 2 , 'CPF' ) 
+        WHEN tipoLotacao IN ( "02")  THEN STRUCT( 3 , 'CNO (Cadastro Nacional de Obra)' ) 
+        ELSE STRUCT( 0 , 'Unknown'  )
+    END
+);
+
+
+CREATE TEMP FUNCTION GetAllotmentEnrollmentNumber(usaTomador BOOL , cgcFcfo STRING, cgcSecao STRING)
+RETURNS STRING
+AS (
+    CASE 
+        WHEN usaTomador = TRUE THEN cgcFcfo
+        WHEN usaTomador = FALSE THEN cgcSecao
+        ELSE NULL
+    END
+);
+
+CREATE TEMP FUNCTION GetAllotmentFpas(usaTomador BOOL , consideraDadosSecao BOOL , secaoFpas STRING, locacaoFpas STRING)
+RETURNS STRUCT<Code STRING, Label STRING>
+AS (
+    CASE 
+        WHEN usaTomador = TRUE AND consideraDadosSecao = TRUE  THEN STRUCT( secaoFpas , 'Descricao Tabela')
+        WHEN usaTomador = TRUE AND consideraDadosSecao = FALSE  THEN STRUCT( locacaoFpas , 'Descricao Tabela')
+        WHEN usaTomador = FALSE THEN STRUCT( secaoFpas , 'Descricao Tabela')
+    END
+);
+
+
+CREATE TEMP FUNCTION GetAllotmentCodTercs(usaTomador BOOL , consideraDadosSecao BOOL , secaoCodTercs STRING, locacaoCodTercs STRING)
+RETURNS STRUCT<Code STRING, Label STRING>
+AS (
+    CASE 
+        WHEN usaTomador = TRUE AND consideraDadosSecao = TRUE  THEN STRUCT( secaoCodTercs , 'Descricao Tabela')
+        WHEN usaTomador = TRUE AND consideraDadosSecao = FALSE  THEN STRUCT( locacaoCodTercs , 'Descricao Tabela')
+        WHEN usaTomador = FALSE THEN STRUCT( secaoCodTercs , 'Descricao Tabela')
+    END
+);
+
+CREATE TEMP FUNCTION GetAllotmentCodTercsSusp(usaTomador BOOL , consideraDadosSecao BOOL , secaoCodTercsSusp STRING, locacaoCodTercsSusp STRING)
+RETURNS STRUCT<Code STRING, Label STRING>
+AS (
+    CASE 
+        WHEN usaTomador = TRUE AND consideraDadosSecao = TRUE  THEN STRUCT( secaoCodTercsSusp , 'Descricao Tabela')
+        WHEN usaTomador = TRUE AND consideraDadosSecao = FALSE  THEN STRUCT( locacaoCodTercsSusp , 'Descricao Tabela')
+        WHEN usaTomador = FALSE THEN STRUCT( secaoCodTercsSusp , 'Descricao Tabela')
+    END
+);
+
+
+CREATE TEMP FUNCTION GetAllotmentProcJudTerCod(usaTomador BOOL , codTerceiros STRING)
+RETURNS STRUCT<Code STRING, Label STRING>
+AS (
+    CASE 
+        WHEN usaTomador = TRUE THEN STRUCT( codTerceiros , 'Descricao Tabela')
+        WHEN usaTomador = FALSE THEN STRUCT( '0' , 'Unknown'  )
+    END
+     
+);
+
+
+CREATE TEMP FUNCTION GetInfoEmprParcialNrInscProp( tpLotacao STRING, empParcial INT64, cgcTomador STRING, cgcLotacao STRING )
+RETURNS STRING
+AS (
+    CASE 
+        WHEN tpLotacao = "02" AND empParcial = 1  THEN cgcTomador
+        WHEN tpLotacao = "02" AND empParcial = 0  THEN cgcLotacao
+    END
+);
+
+
+CREATE TEMP FUNCTION GetInfoEmprTpIsnc( cgc STRING )
+RETURNS STRUCT<Code INT64, Label STRING>
+AS (
+    CASE 
+        WHEN LENGTH(REGEXP_REPLACE(TRIM(cgc), '[^0-9]', '')) = 11 THEN STRUCT( 2 , 'CPF' )
+        ELSE STRUCT( 1 , 'CNPJ' )
+    END
+);
+
+
+
+WITH tempTableRmConnectorPsecao AS (
+    SELECT 
+        stg.Codigo,
+        stg.CodColigada,
+        stg.Cgc,
+        stg.Descricao,
+        stg.NrProcessoRat,
+        stg.CodSuspprocJudRat,
+        stg.NrProcessoFap,
+        stg.CodSuspProcJudFap,
+        stg.NrProcJudApr,
+        stg.NrProcJudPcd,
+        stg.TipoCaePf,
+        stg.TpProcessoFap,
+        stg.CaePf,
+        stg.TpLotacao,
+        stg.Cno,
+        stg.CnaePreponderante,
+        stg.AtivEconomica,
+        stg.PercentaCidTrab,
+        stg.Fpas,
+        "A" AS TppPocessoRat,
+        stg.CodTerceirosInss,
+        stg.CodTercsSusp, 
+        stg.mdmDeleted,
+        --metadataNoId--
+    FROM (
+        SELECT 
+            * EXCEPT(ranking)
+        FROM (
+            SELECT ROW_NUMBER() OVER (partition BY MdmId ORDER BY MdmCounterForEntity DESC) ranking, *
+            FROM stg_rm_carol_psecao
+        )
+        WHERE 
+            ranking = 1
+    ) AS stg
+    WHERE
+        stg.Codigo IS NOT NULL
+        AND stg.Cgc IS NOT NULL
+),
+
+tempTableRmConnectorDfilial AS (
+    SELECT 
+            * EXCEPT(ranking)
+        FROM (
+            SELECT 
+                ROW_NUMBER() OVER (partition BY mdmId ORDER BY mdmCounterForEntity DESC) ranking,
+                stg.CodColigada,
+                stg.CodFilial,
+                stg.CodFilialSocioscp
+                --metadataNoId--
+            FROM 
+            stg_rm_carol_dfilial AS stg
+        )
+        WHERE 
+            ranking = 1    
+),
+
+tempTableRmConnectorFcfo AS (
+    SELECT 
+            * EXCEPT(ranking)
+        FROM (
+            SELECT 
+                ROW_NUMBER() OVER (partition BY mdmId ORDER BY mdmCounterForEntity DESC) ranking,
+                stg.CodColigada,
+                stg.Codcfo,
+                stg.Cei,
+                stg.CgcCfo,
+                stg.NomeFantasia,
+                stg.CnaePrep,
+                stg.PercentaCidTrab,
+                stg.Fap,
+                --metadataNoId--
+            FROM 
+            stg_rm_carol_fcfo AS stg
+        )
+        WHERE 
+            ranking = 1    
+),
+
+
+tempTableRmConnectorGcoligada AS (
+    SELECT 
+            * EXCEPT(ranking)
+        FROM (
+            SELECT 
+                ROW_NUMBER() OVER (partition BY mdmId ORDER BY mdmCounterForEntity DESC) ranking,
+                stg.CodColigada,
+                stg.Cgc,
+                stg.NomeFantasia,
+                --metadataNoId--
+            FROM 
+            stg_rm_carol_gcoligada AS stg
+        )
+        WHERE 
+            ranking = 1    
+),
+
+
+tempTableRmConnectorPesocialLotacaoTributaria AS (
+    SELECT 
+            * EXCEPT(ranking)
+        FROM (
+            SELECT 
+                ROW_NUMBER() OVER (partition BY mdmId ORDER BY mdmCounterForEntity DESC) ranking,
+                stg.CodColigada,
+                stg.Codlotacao,
+                stg.TipoLotacaoEsocial,
+                stg.CodSecao,
+                stg.CodColigadaTomador,
+                stg.CodTomador,
+                stg.UsarDadosSecao,
+                stg.Fpas,
+                stg.CodTerceiros,
+                stg.CodTerceirosSusp,
+                stg.EmpreitadaParcial,
+                stg.mdmDeleted,
+                --metadataNoId--
+            FROM 
+            stg_rm_carol_pesociallotacaotributaria AS stg
+        )
+        WHERE 
+            ranking = 1    
+),
+
+
+tempTableRmConnectorPesocialLotacaoProcessos AS (
+    SELECT 
+            * EXCEPT(ranking)
+        FROM (
+            SELECT 
+                ROW_NUMBER() OVER (partition BY mdmId ORDER BY mdmCounterForEntity DESC) ranking,
+                stg.CodColigada,
+                stg.Codlotacao,
+                stg.CodTerceiros,
+                stg.NroProcesso,
+                stg.CodIndicSuspensao,
+                --metadataNoId--
+            FROM 
+            stg_rm_carol_pesociallotacaoprocessos AS stg
+        )
+        WHERE 
+            ranking = 1    
+), 
+
+tempTableRmConnectorPparam AS (
+    SELECT 
+            * EXCEPT(ranking)
+        FROM (
+            SELECT 
+                ROW_NUMBER() OVER (partition BY mdmId ORDER BY mdmCounterForEntity DESC) ranking,
+                stg.CodColigada,
+                stg.Usatomador,
+                stg.CodTomadorEmpresa,
+                stg.CodColTomador,
+                stg.AnoComp,
+                stg.Mescomp,
+                --metadataNoId--
+            FROM 
+            stg_rm_carol_pparam AS stg
+        )
+        WHERE 
+            ranking = 1    
+),
+
+tempInfoAllotmentTypeEsocial AS 
+(
+    SELECT '01' AS Code , "Classificação da atividade econômica exercida pela Pessoa Jurídica para fins de atribuição de código FPAS, inclusive obras de construção civil própria" AS Label UNION ALL
+    SELECT '02' AS Code , "Obra de construção civil - Empreitada parcial ou subempreitada CNO da obra - A informação do CNPJ/CPF do contratante é prestada no grupo infoEmprParcial"  AS Label UNION ALL
+    SELECT '03' AS Code , 'Pessoa Física tomadora de serviços prestados mediante cessão de mão de obra, exceto contratante de cooperativa	CPF do contratante'  AS Label UNION ALL
+    SELECT '04' AS Code , 'Pessoa Jurídica tomadora de serviços prestados mediante cessão de mão de obra, exceto contratante de cooperativa, nos termos da Lei 8.212/1991	CNPJ do estabelecimento contratante'  AS Label UNION ALL
+    SELECT '05' AS Code , 'Pessoa Jurídica tomadora de serviços prestados por cooperados por intermédio de cooperativa de trabalho, exceto aqueles prestados a entidade beneficente/isenta CNPJ do estabelecimento contratante' AS Label UNION ALL
+    SELECT '06' AS Code , 'Entidade beneficente/isenta tomadora de serviços prestados por cooperados por intermédio de cooperativa de trabalho CNPJ do estabelecimento contratante' AS Label UNION ALL
+    SELECT '07' AS Code , 'Pessoa Física tomadora de serviços prestados por cooperados por intermédio de cooperativa de trabalho CPF do contratante'  AS Label UNION ALL
+    SELECT '08' AS Code , 'Operador portuário tomador de serviços de trabalhadores avulsos CNPJ do operador portuário'  AS Label UNION ALL
+    SELECT '09' AS Code , 'Contratante de trabalhadores avulsos não portuários por intermédio de sindicato CNPJ ou CPF do contratante'  AS Label UNION ALL
+    SELECT '10' AS Code , 'Embarcação inscrita no Registro Especial Brasileiro - REB	Não preencher'  AS Label UNION ALL
+    SELECT '21' AS Code , 'Classificação da atividade econômica ou obra própria de construção civil da Pessoa Física	Não preencher' AS Label UNION ALL
+    SELECT '24' AS Code , 'Empregador doméstico	Não preencher'  AS Label UNION ALL
+    SELECT '90' AS Code , 'Atividades desenvolvidas no exterior por trabalhador vinculado ao Regime Geral de Previdência Social (expatriados)	Não preencher'  AS Label UNION ALL
+    SELECT '91' AS Code , 'Atividades desenvolvidas por trabalhador estrangeiro vinculado a Regime de Previdência Social no exterior' AS Label 
+)
+
+
+SELECT 
+
+    GetTaxAllotmentId(TempSecaoTributaria.__mdmTenantId , TempSecaoTributaria.CodColigada ,TempSecaoTributaria.Codlotacao ) AS Id,
+    GetTaxAllotmentId(TempSecaoTributaria.__mdmTenantId , TempSecaoTributaria.CodColigada ,TempSecaoTributaria.Codlotacao ) AS __mdmId,
+    GetEstabId(TempSecaoTributaria.__mdmTenantId , TempSecaoTributaria.CodColigada ,TempSecaoTributaria.CodSecao) AS IdEstabelecimento,
+
+    STRUCT(
+        GetTypeEnvironment(1) AS TpAmb,
+        GetProcessIssuanceEvent(1) AS ProcEmi, 
+        "12.1.2302" AS VerProc
+    ) AS IdeEvento,
+
+    STRUCT(
+        GetRegistrationType(1) AS TpInsc,
+        REGEXP_REPLACE(TempGcoligada.Cgc, '[^0-9]', '')  AS NrInsc
+    ) AS IdeEmpregador,
+
+    STRUCT(
+            GetAllotmentCode(TempParam.UsaTomador, TempSecao.Codigo , TempSecaoTributaria.CodLotacao ) AS CodLotacao,
+            ""  AS IniValid,
+            "" AS FimValid
+    ) AS IdeLotacao,
+
+     STRUCT(
+        GetAllotmentType( TempParam.UsaTomador , TempTypeAllotmnetSec.Code, TempTypeAllotmnetSec.Label, TempTypeAllotmnetTrb.Code, TempTypeAllotmnetTrb.Label ) AS TpLotacao  , 
+        GetAllotmentEnrollmentType( TempSecao.TpLotacao) AS TpInsc,
+        REGEXP_REPLACE(GetAllotmentEnrollmentNumber(TempParam.UsaTomador , TempFcfo.CgcCfo , TempSecao.Cgc ), '[^0-9]', '') AS NrInsc
+    ) AS DadosLotacao,
+    
+    STRUCT(
+        GetAllotmentFpas(TempParam.UsaTomador , TempSecaoTributaria.UsarDadosSecao , TempSecao.Fpas ,  TempSecaoTributaria.Fpas  ) AS Fpas,
+        GetAllotmentCodTercs(TempParam.UsaTomador , TempSecaoTributaria.UsarDadosSecao , TempSecao.CodTerceirosInss ,  TempSecaoTributaria.CodTerceiros )  AS CodTercs,
+        GetAllotmentCodTercsSusp(TempParam.UsaTomador , TempSecaoTributaria.UsarDadosSecao , TempSecao.CodTercsSusp ,  TempSecaoTributaria.CodTerceirosSusp) AS CodTercsSusp
+    ) AS FpasLotacao,
+
+    STRUCT(
+        GetAllotmentProcJudTerCod(TempParam.UsaTomador ,TempSecaoProcessos.CodTerceiros) AS CodTerc,
+        TempSecaoProcessos.NroProcesso AS NrProcJud,
+        TempSecaoProcessos.CodIndicSuspensao AS CodSusp
+    ) AS ProcJudTerceiro,
+
+    STRUCT(
+        GetInfoEmprTpIsnc(CAST(TempFcfo.CgcCfo AS STRING)) AS TpInscContrat,
+        REGEXP_REPLACE(TempFcfo.CgcCfo, '[^0-9]', '') AS NrInscContrat,
+        GetInfoEmprParcialNrInscProp(TempSecaoTributaria.TipoLotacaoEsocial, TempSecaoTributaria.EmpreitadaParcial ,  REGEXP_REPLACE(TempFcfo.CgcCfo, '[^0-9]', '') ,  REGEXP_REPLACE(TempFcfoTomatorLotacao.CgcCfo, '[^0-9]', '')  ) AS NrInscProp
+    ) AS InfoEmprParcial,
+
+    STRUCT(
+        "" AS IniValid,
+        "" AS FimValid
+    ) AS NovaValidade,
+
+    (TempSecaoTributaria.mdmDeleted IS NOT NULL AND TempSecaoTributaria.mdmDeleted = TRUE)  AS mdmDeleted,
+    TempSecaoTributaria.__mdmTenantId,
+    TempSecaoTributaria.__mdmCounterForEntity,
+    TempSecaoTributaria.__mdmStagingRecordIds,
+    TempSecaoTributaria.__mdmSourceEntityNames,
+    
+FROM 
+    tempTableRmConnectorGcoligada AS TempGcoligada 
+
+    INNER JOIN tempTableRmConnectorPparam AS TempParam 
+        ON  TempParam.CodColigada = TempGcoligada.CodColigada
+        AND TempParam.__mdmTenantId = TempGcoligada.__mdmTenantId
+    
+    INNER JOIN tempTableRmConnectorPsecao AS TempSecao
+        ON TempSecao.CodColigada = TempGcoligada.CodColigada
+        AND TempSecao.__mdmTenantId = TempGcoligada.__mdmTenantId
+
+    INNER JOIN tempTableRmConnectorPesocialLotacaoTributaria AS TempSecaoTributaria
+        ON TempSecaoTributaria.CodColigada = TempSecao.CodColigada 
+        AND TempSecaoTributaria.CodSecao = TempSecao.Codigo
+        AND TempSecaoTributaria.__mdmTenantId = TempSecao.__mdmTenantId
+    
+    LEFT JOIN tempTableRmConnectorPesocialLotacaoProcessos AS TempSecaoProcessos
+        ON TempSecaoProcessos.CodColigada  = TempSecaoTributaria.CodColigada
+        AND TempSecaoProcessos.CodLotacao = TempSecaoTributaria.CodLotacao
+        AND TempSecaoProcessos.__mdmTenantId = TempSecaoTributaria.__mdmTenantId
+
+    LEFT JOIN tempTableRmConnectorFcfo AS TempFcfo
+        ON TempFcfo.CodColigada = TempParam.CodColTomador
+            AND TempFcfo.Codcfo = TempParam.CodTomadorEmpresa
+            AND TempFcfo.__mdmTenantId = TempParam.__mdmTenantId
+
+    LEFT JOIN tempTableRmConnectorFcfo AS TempFcfoTomatorLotacao
+        ON TempFcfoTomatorLotacao.CodColigada = TempSecaoTributaria.CodColigadaTomador
+            AND TempFcfoTomatorLotacao.Codcfo = TempSecaoTributaria.CodTomador
+            AND TempFcfoTomatorLotacao.__mdmTenantId = TempSecaoTributaria.__mdmTenantId
+    
+    LEFT JOIN tempInfoAllotmentTypeEsocial TempTypeAllotmnetSec
+        ON TempTypeAllotmnetSec.Code = TempSecao.Codigo
+        
+    LEFT JOIN tempInfoAllotmentTypeEsocial TempTypeAllotmnetTrb
+        ON TempTypeAllotmnetTrb.Code = TempSecaoTributaria.TipoLotacaoEsocial
+        
+ORDER BY TempSecao.Codigo , TempSecaoTributaria.CodLotacao

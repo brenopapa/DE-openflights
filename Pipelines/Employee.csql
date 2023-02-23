@@ -1,0 +1,70 @@
+CREATE TEMP FUNCTION GetRMEmployeeId(mdmTenantId STRING, CodColigada INT64, Chapa STRING)
+RETURNS STRING
+AS (
+    TO_HEX(MD5(LOWER(CONCAT(
+        mdmTenantId,
+        'Employee{',
+            '"CodColigada":"', CodColigada, '",',
+            '"Chapa":"', Chapa, '",',
+            '"ERP":"RM",',
+        '}'
+    ))))
+);
+
+CREATE TEMP FUNCTION ConvertRMDateTimeToDate(ValueDateTime DATETIME)
+RETURNS DATE
+AS (
+    CASE
+        WHEN EXTRACT(YEAR FROM ValueDateTime) = 0001 THEN NULL
+        ELSE EXTRACT(DATE FROM ValueDateTime)
+        END
+);
+
+WITH tempTableRmConnectorPfunc AS (
+    SELECT 
+        stg.CODCOLIGADA,
+        stg.CHAPA,
+        stg.MATRICULAESOCIAL,
+        stg.CODPESSOA,
+        stg.CODFUNCAO,
+        stg.CODSECAO,
+        ConvertRMDateTimeToDate(stg.DATAADMISSAO) AS DATAADMISSAO,
+        stg.mdmDeleted,
+        --metadataNoId--
+    FROM (
+        SELECT 
+            * EXCEPT(ranking)
+        FROM (
+            SELECT ROW_NUMBER() OVER (partition BY mdmId ORDER BY mdmCounterForEntity DESC) ranking, *
+            FROM stg_rm_carol_pfunc
+            --timestamp-- WHERE mdmCounterForEntity > {{start_from}}
+        )
+        WHERE 
+            ranking = 1        
+    ) AS stg
+    WHERE
+        stg.CODCOLIGADA IS NOT NULL
+        AND stg.CHAPA IS NOT NULL
+        --timestamp-- AND stg.mdmCounterForEntity > {{start_from}}
+    ORDER BY
+        CODCOLIGADA, CHAPA
+)
+
+
+SELECT
+    GetRMEmployeeId(tempPfunc.__mdmTenantId, tempPfunc.CODCOLIGADA, tempPfunc.CHAPA) AS id,
+    GetRMEmployeeId(tempPfunc.__mdmTenantId, tempPfunc.CODCOLIGADA, tempPfunc.CHAPA) AS __mdmId,
+    tempPfunc.MATRICULAESOCIAL AS registration,
+    tempPfunc.DATAADMISSAO AS hiredate,
+    tempPfunc.CODCOLIGADA AS subsidiaryid,
+    tempPfunc.CODPESSOA AS personid,
+    tempPfunc.CODFUNCAO AS employeerole,    
+    tempPfunc.CODSECAO AS departmentid,
+    (tempPfunc.mdmDeleted IS NOT NULL AND tempPfunc.mdmDeleted = TRUE) AS mdmDeleted,
+    tempPfunc.__mdmTenantId,
+    tempPfunc.__mdmCounterForEntity,
+FROM
+    tempTableRmConnectorPfunc AS tempPfunc
+
+
+

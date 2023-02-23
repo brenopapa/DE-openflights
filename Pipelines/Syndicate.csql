@@ -1,0 +1,56 @@
+CREATE TEMP FUNCTION GetRMSubsidiaryId(mdmTenantId STRING, CodColigada INT64, Codigo STRING)
+RETURNS STRING
+AS (
+    TO_HEX(MD5(LOWER(CONCAT(
+        mdmTenantId,
+        'Subsidiary{',
+            '"CodColigada":"', CodColigada, '",',
+            '"Codigo":"', Codigo, '",',
+            '"ERP":"RM",',
+        '}'
+    ))))
+);
+
+
+WITH tempTableRmConnectorPsindic AS (
+    SELECT
+        stg.CODIGO,
+        stg.CODCOLIGADA,
+        stg.NOME,
+        stg.RUA,
+        stg.NUMERO,
+        LENGTH(stg.Codigo) AS TamanhoCodigo,
+        stg.mdmDeleted
+        --metadataNoId--
+    FROM (
+        SELECT 
+            * EXCEPT(ranking)
+        FROM (
+            SELECT ROW_NUMBER() OVER (partition BY mdmId ORDER BY mdmCounterForEntity DESC) ranking, *
+            FROM stg_rm_carol_psindic
+            --timestamp-- WHERE mdmCounterForEntity > {{start_from}}
+        )
+        WHERE 
+            ranking = 1        
+    ) AS stg
+)
+
+
+
+SELECT 
+    tempPsindic.CODIGO AS code,
+    tempPsindic.CODCOLIGADA AS affiliatecode,
+    tempPsindic.NOME AS name,
+    tempPsindic.RUA AS street,
+    tempPsindic.NUMERO AS street_number,
+    GetRMSubsidiaryId(tempPsindic.__mdmTenantId, tempPsindic.CodColigada, tempPsindic.Codigo) AS Id,    
+    GetRMSubsidiaryId(tempPsindic.__mdmTenantId, tempPsindic.CodColigada, tempPsindic.Codigo) AS __mdmId,
+    tempPsindic.mdmDeleted,
+    tempPsindic.__mdmTenantId,
+    tempPsindic.__mdmCounterForEntity,
+    tempPsindic.__mdmStagingRecordIds,
+    tempPsindic.__mdmSourceEntityNames,
+FROM 
+    tempTableRmConnectorPsindic AS tempPsindic
+
+

@@ -1,0 +1,72 @@
+
+CREATE TEMP FUNCTION GetRMEmployerId(mdmTenantId STRING, CodColigada INT64, CGC STRING)
+RETURNS STRING
+AS (
+    TO_HEX(MD5(LOWER(CONCAT(
+        mdmTenantId,
+        'Employer{',
+            '"CodColigada":"', CodColigada, '",',
+            '"ERP":"RM",',
+        '}'
+    ))))
+);
+
+CREATE TEMP FUNCTION GetTipoDep(grauParentesco STRING, universitario BOOL, idade INT64)
+RETURNS STRUCT<code INT64, label STRING>
+AS(
+    CASE
+        WHEN grauParentesco = '5' THEN STRUCT( 1 AS code, 'Cônjuge' AS label )
+        WHEN grauParentesco = 'C' THEN STRUCT( 2 AS code, 'Companheiro(a)' AS label )
+        WHEN grauParentesco IN('1', 'D', '3') THEN STRUCT( 3 AS code, 'Filho(a) ou enteado(a)' AS label )
+        WHEN grauParentesco IN ('1','D','3') AND universitario = TRUE AND idade <= 24 THEN STRUCT( 4 AS code, 'Filho(a) ou enteado(a) universitário(a) ou cursando escola técnica de 2º grau, até 24 (vinte e quatro) anos' AS label )
+        WHEN grauParentesco IN('I','N','T') THEN STRUCT( 6 AS code, 'Irmão(ã), neto(a) ou bisneto(a) sem arrimo dos pais, do(a) qual detenha a guarda judicial.' AS label )
+        WHEN grauParentesco IN('6','7','A') THEN STRUCT( 9 AS code, 'Pais, avós e bisavós' AS label )
+        WHEN grauParentesco = 'M' THEN STRUCT( 10 AS code, 'Menor pobre do qual detenha a guarda judicial' AS label )
+        WHEN grauParentesco = 'B' THEN STRUCT( 11 AS code, 'A pessoa absolutamente incapaz, da qual seja tutor ou curador' AS label )
+        WHEN grauParentesco = 'G' THEN STRUCT( 12 AS code, 'Ex-cônjuge' AS label )
+        ELSE STRUCT( 99 AS code, 'Agregado/Outros' AS label )
+    END    
+);
+
+WITH tempTableRmConnectorPfdepend AS (
+    SELECT
+        stg.CODCOLIGADA,
+        stg.CHAPA,
+        stg.CPF,
+        stg.NOME,
+        stg.GRAUPARENTESCO,
+        stg.UNIVERSITARIO,
+        DATE_DIFF(current_date(), stg.DTNASCIMENTO, YEAR) AS IDADE,
+        --metadataNoId--
+    FROM (
+        SELECT 
+            * EXCEPT(ranking)
+        FROM (
+            SELECT ROW_NUMBER() OVER (partition BY mdmId ORDER BY mdmCounterForEntity DESC) ranking, *
+            FROM stg_rm_carol_pfdepend
+            --timestamp-- WHERE mdmCounterForEntity > {{start_from}}
+        )
+        WHERE 
+            ranking = 1        
+    )
+    AS stg
+)
+
+
+
+SELECT 
+    GetTipoDep(tempPfdepend.GRAUPARENTESCO, tempPfdepend.UNIVERSITARIO, tempPfdepend.IDADE) AS tpdep,
+    tempPfdepend.CPF AS cpfdep,
+    tempPfdepend.NOME AS nmdep,
+    tempPfdepend.CODCOLIGADA AS empregadorid,
+    tempPfdepend.CHAPA AS trabalhadorid,
+
+    tempPfdepend.__mdmTenantId,
+    tempPfdepend.__mdmCounterForEntity,
+    tempPfdepend.__mdmStagingRecordIds,
+    tempPfdepend.__mdmSourceEntityNames,
+FROM 
+    tempTableRmConnectorPfdepend AS tempPfdepend
+
+
+
