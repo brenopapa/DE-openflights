@@ -1,212 +1,40 @@
 {
-    "defaults":
-    {
+    "defaults": {
+      "cronExpressions": ["0 0 7,19 ? * * *"],
+      "prepareScripts": []
+    },
+    "pipelines": [
+      {
+        "pipelineName": "planes",
+        "pipelineDescription": "Pipeline para processar dados de Planes",
+        "outputDataModelName": "planes",
+        "overlapDeltaMinutes": 3600,
+        "saveToCds": true,
+        "saveToUnified": true,
+        "sendToSubscriptions": true,
         "cronExpressions":
         [
-            "0 */5 0 ? * * *"
+            "0 5,15,25,35,45,56 * * * ?"
         ],
+        "timeZone": "America/Sao_Paulo",
         "prepareScripts":
         [
             "scripts/BasePrepare3.csql"
-        ]
-    },
-    "pipelines":
-    [
+        ],
+        "processScript": "dml/planes.csql",
+        "sourceEntities":
         {
-            "pipelineName": "airlines",
-            "pipelineDescription": "Pipeline para processar dados de Airlines",
-            "outputDataModelName": "airlines",
-            "overlapDeltaMinutes": 3600,
-            "saveToCds": true,
-            "saveToUnified": true,
-            "sendToSubscriptions": true,
-            "cronExpressions":
+            "dataModels":
             [
-                "0 5,15,25,35,45,56 * * * ?"
             ],
-            "timeZone": "America/Sao_Paulo",
-            "prepareScripts":
+            "stagings":
             [
-                ""
-            ],
-            "processScript": "dml/airlines.csql",
-            "sourceEntities":
-            {
-                "dataModels":
-                [
-                ],
-                "stagings":
-                [
-                    {
-                        "connectorName": "myconnector",
-                        "stagingName": "airlines"
-                    }
-                ]
-            }
-        },
-        {
-            "pipelineName": "airports",
-            "pipelineDescription": "Pipeline para processar dados de Airports",
-            "outputDataModelName": "airports",
-            "overlapDeltaMinutes": 3600,
-            "saveToCds": true,
-            "saveToUnified": true,
-            "sendToSubscriptions": true,
-            "cronExpressions":
-            [
-                "0 5,15,25,35,45,56 * * * ?"
-            ],
-            "timeZone": "America/Sao_Paulo",
-            "prepareScripts":
-            [
-                ""
-            ],
-            "processScript": "dml/airports.csql",
-            "sourceEntities":
-            {
-                "dataModels":
-                [
-                ],
-                "stagings":
-                [
-                    {
-                        "connectorName": "myconnector",
-                        "stagingName": "airports"
-                    }
-                ]
-            }
-        },
-        {
-            "pipelineName": "countries",
-            "pipelineDescription": "Pipeline para processar dados de Countries",
-            "outputDataModelName": "countries",
-            "overlapDeltaMinutes": 3600,
-            "saveToCds": true,
-            "saveToUnified": true,
-            "sendToSubscriptions": true,
-            "cronExpressions":
-            [
-                "0 5,15,25,35,45,56 * * * ?"
-            ],
-            "timeZone": "America/Sao_Paulo",
-            "prepareScripts":
-            [
-                ""
-            ],
-            "processScript": "dml/countries.csql",
-            "sourceEntities":
-            {
-                "dataModels":
-                [
-                ],
-                "stagings":
-                [
-                    {
-                        "connectorName": "myconnector",
-                        "stagingName": "countries"
-                    }
-                ]
-            }
-        },
-        {
-            "pipelineName": "planes",
-            "pipelineDescription": "Pipeline para processar dados de Planes",
-            "outputDataModelName": "planes",
-            "overlapDeltaMinutes": 3600,
-            "saveToCds": true,
-            "saveToUnified": true,
-            "sendToSubscriptions": true,
-            "cronExpressions":
-            [
-                "0 5,15,25,35,45,56 * * * ?"
-            ],
-            "timeZone": "America/Sao_Paulo",
-            "prepareScripts":
-            [
-                ""
-            ],
-            "processScript": "dml/planes.csql",
-            "sourceEntities":
-            {
-                "dataModels":
-                [
-                ],
-                "stagings":
-                [
-                    {
-                        "connectorName": "myconnector",
-                        "stagingName": "planes"
-                    }
-                ]
-            }
-        },
-        {
-            "pipelineName": "routes",
-            "pipelineDescription": "Pipeline para processar dados de Routes",
-            "outputDataModelName": "routes",
-            "overlapDeltaMinutes": 3600,
-            "saveToCds": true,
-            "saveToUnified": true,
-            "sendToSubscriptions": true,
-            "cronExpressions":
-            [
-                "0 5,15,25,35,45,56 * * * ?"
-            ],
-            "timeZone": "America/Sao_Paulo",
-            "prepareScripts":
-            [
-                "scripts/BasePrepare3.csql"
-            ],
-            "processScript": "dml/routes.csql",
-            "sourceEntities":
-            {
-                "dataModels":
-                [
-                ],
-                "stagings":
-                [
-                    {
-                        "connectorName": "myconnector",
-                        "stagingName": "routes"
-                    }
-                ]
-            }
-        },
-        {
-            "pipelineName": "customstaging",
-            "pipelineDescription": "Pipeline para processar dados de uma nova staging table",
-            "outputDataModelName": "customstaging",
-            "overlapDeltaMinutes": 3600,
-            "saveToCds": true,
-            "saveToUnified": true,
-            "sendToSubscriptions": true,
-            "cronExpressions":
-            [
-                "0 5,15,25,35,45,56 * * * ?"
-            ],
-            "timeZone": "America/Sao_Paulo",
-            "prepareScripts":
-            [
-                "scripts/BasePrepare2.csql"
-            ],
-            "processScript": "dml/customstaging.csql",
-            "sourceEntities":
-            {
-                "dataModels":
-                [
-                ],
-                "stagings":
-                [
-                    {
-                        "connectorName": "myconnector",
-                        "stagingName": "customstaging"
-                    },
-                    {
-                        "connectorName": "myconnector",
-                        "stagingName": "changedatatype"
-                    }
-                ]
-            }
+                {
+                    "connectorName": "myconnector",
+                    "stagingName": "planes"
+                }
+            ]
         }
+    }
     ]
-}
+  }
