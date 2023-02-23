@@ -1,4 +1,4 @@
-CREATE FUNCTION `carol-b498737fc9db4fc8bb06.b498737fc9db4fc8bb06ff582edfb8aa`.GetTypeEnvironment3(tpAmb INT64)
+CREATE FUNCTION `carol-bca1007e136a4632a83d.bca1007e136a4632a83dabd97879684c`.GetTypeEnvironment3(tpAmb INT64)
 RETURNS STRING 
 AS (
     CASE
