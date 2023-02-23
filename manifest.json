@@ -1,0 +1,349 @@
+{
+  "defaults": {
+    "cronExpressions": ["0 0 7,19 ? * * *"],
+    "prepareScripts": []
+  },
+  "pipelines": [
+    {
+      "pipelineName": "HR Platform Subsidiary",
+      "pipelineDescription": "",
+      "outputDataModelName": "hrplatformsubsidiary",
+      "cronExpressions": ["0 0 7,19 ? * * *"],
+      "overlapDeltaMinutes": 1440,
+      "saveToCds": false,
+      "saveToUnified": true,
+      "saveToRealtime": false,
+      "sendToSubscriptions": true,
+      "timeZone": "America/Sao_Paulo",
+      "processScript": "Pipelines/Subsidiary.csql",
+      "sourceEntities": {
+        "dataModels": [],
+        "stagings": [
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "psecao"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "pparam"
+          }
+        ]
+      }
+    },
+    {
+      "pipelineName": "HR Platform Employee",
+      "pipelineDescription": "",
+      "outputDataModelName": "hrplatformemployee",
+      "cronExpressions": ["0 0 9,21 ? * * *"],
+      "overlapDeltaMinutes": 1440,
+      "saveToCds": false,
+      "saveToUnified": true,
+      "saveToRealtime": false,
+      "sendToSubscriptions": true,
+      "timeZone": "America/Sao_Paulo",
+      "processScript": "Pipelines/Employee.csql",
+      "sourceEntities": {
+        "dataModels": [],
+        "stagings": [
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "pfunc"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "pparam"
+          }
+        ]
+      }
+    },
+    {
+      "pipelineName": "HR Platform Person",
+      "pipelineDescription": "S-2200",
+      "outputDataModelName": "hrplatformperson",
+      "overlapDeltaMinutes": 1440,
+      "cronExpressions": ["0 0 8,20 ? * * *"],
+      "saveToCds": false,
+      "saveToUnified": true,
+      "saveToRealtime": false,
+      "sendToSubscriptions": true,
+      "timeZone": "America/Sao_Paulo",
+      "prepareScripts": [
+        "Pipelines/BasePrepare.csql"
+      ],
+      "processScript": "Pipelines/Person.csql",
+      "sourceEntities": {
+        "dataModels": [],
+        "stagings": [
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "ppessoa"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "gmunicipio"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "dtiporua"
+          }
+        ]
+      }
+    },
+    {
+      "pipelineName": "HR Platform Department",
+      "pipelineDescription": "",
+      "outputDataModelName": "hrplatformdepartment",
+      "overlapDeltaMinutes": 1440,
+      "cronExpressions": ["0 0 8,20 ? * * *"],      
+      "saveToCds": false,
+      "saveToUnified": true,
+      "saveToRealtime": false,
+      "sendToSubscriptions": true,
+      "timeZone": "America/Sao_Paulo",
+      "processScript": "Pipelines/Department.csql",
+      "sourceEntities": {
+        "dataModels": [],
+        "stagings": [
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "psecao"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "pparam"
+          }
+        ]
+      }
+    },    
+    {
+      "pipelineName": "HR Platform Syndicate",
+      "pipelineDescription": "",
+      "outputDataModelName": "hrplatformsyndicate",
+      "overlapDeltaMinutes": 1440,
+      "cronExpressions": ["0 0 8,20 ? * * *"],      
+      "saveToCds": false,
+      "saveToUnified": true,
+      "saveToRealtime": false,
+      "sendToSubscriptions": true,
+      "timeZone": "America/Sao_Paulo",
+      "processScript": "Pipelines/Syndicate.csql",
+      "sourceEntities": {
+        "dataModels": [],
+        "stagings": [
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "psindic"
+          }
+        ]
+      }
+    },    
+    {
+      "pipelineName": "HR Platform Employer",
+      "pipelineDescription": "",
+      "outputDataModelName": "hrplatformemployer",
+      "overlapDeltaMinutes": 1440,
+      "cronExpressions": ["0 0 8,20 ? * * *"],      
+      "saveToCds": false,
+      "saveToUnified": true,
+      "saveToRealtime": false,
+      "sendToSubscriptions": true,
+      "timeZone": "America/Sao_Paulo",
+      "processScript": "Pipelines/Employer.csql",
+      "sourceEntities": {
+        "dataModels": [],
+        "stagings": [
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "pesocialempregador"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "gcoligada"
+          }
+        ]
+      }
+    },
+    {
+      "pipelineName": "HR Platform Establishment",
+      "pipelineDescription": "S-1005",
+      "outputDataModelName": "hrplatformestablishment",
+      "overlapDeltaMinutes": 1440,
+      "cronExpressions": ["0 0 8,20 ? * * *"],     
+      "saveToCds": false,
+      "saveToUnified": true,
+      "saveToRealtime": false,
+      "sendToSubscriptions": true,
+      "timeZone": "America/Sao_Paulo",
+      "processScript": "Pipelines/Establishment.csql",
+      "sourceEntities": {
+        "dataModels": [],
+        "stagings": [
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "psecao"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "gcoligada"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "fcfo"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "fcfocei"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "pesocialcliforcei"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "psecaofapaliquota"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "pparam"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "gmunicipio"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "dtiporua"
+          }
+        ]
+      }
+    },
+    {
+      "pipelineName": "HR Platform Tax Allotment",
+      "pipelineDescription": "S-1020",
+      "outputDataModelName": "hrplatformtaxallotment",
+      "overlapDeltaMinutes": 1440,
+      "cronExpressions": ["0 0 8,20 ? * * *"],   
+      "saveToCds": false,
+      "saveToUnified": true,
+      "saveToRealtime": false,
+      "sendToSubscriptions": true,
+      "timeZone": "America/Sao_Paulo",
+      "processScript": "Pipelines/TaxAllotment.csql",
+      "sourceEntities": {
+        "dataModels": [],
+        "stagings": [
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "psecao"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "dfilial"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "gcoligada"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "fcfo"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "pparam"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "pesociallotacaotributaria"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "pesociallotacaoprocessos"
+          }
+        ]
+      }
+    },
+    {
+      "pipelineName": "HR Platform Payroll Rubric",
+      "pipelineDescription": "",
+      "outputDataModelName": "hrplatformpayrollrubric",
+      "overlapDeltaMinutes": 1440,
+      "cronExpressions": ["0 0 8,20 ? * * *"],      
+      "saveToCds": false,
+      "saveToUnified": true,
+      "saveToRealtime": false,
+      "sendToSubscriptions": true,
+      "timeZone": "America/Sao_Paulo",
+      "processScript": "Pipelines/PayrollRubric.csql",
+      "sourceEntities": {
+        "dataModels": [],
+        "stagings": [
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "pevento"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "gcoligada"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "pprocsuspensaoinc"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "pmemo"
+          }
+        ]
+      }
+    },
+    {
+      "pipelineName": "HR Platform Position",
+      "pipelineDescription": "",
+      "outputDataModelName": "hrplatformposition",
+      "overlapDeltaMinutes": 1440,
+      "cronExpressions": ["0 0 8,20 ? * * *"],      
+      "saveToCds": false,
+      "saveToUnified": true,
+      "saveToRealtime": false,
+      "sendToSubscriptions": true,
+      "timeZone": "America/Sao_Paulo",
+      "processScript": "Pipelines/Position.csql",
+      "sourceEntities": {
+        "dataModels": [],
+        "stagings": [
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "pfuncao"
+          },
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "gcoligada"
+          }
+        ]
+      }
+    },
+    {
+      "pipelineName": "HR Platform Dependent",
+      "pipelineDescription": "",
+      "outputDataModelName": "hrplatformdependent",
+      "overlapDeltaMinutes": 1440,
+      "cronExpressions": ["0 0 8,20 ? * * *"],      
+      "saveToCds": false,
+      "saveToUnified": true,
+      "saveToRealtime": false,
+      "sendToSubscriptions": true,
+      "timeZone": "America/Sao_Paulo",
+      "processScript": "Pipelines/Dependent.csql",
+      "sourceEntities": {
+        "dataModels": [],
+        "stagings": [
+          {
+            "connectorName": "rm_carol",
+            "stagingName": "pfdepend"
+          }
+        ]
+      }
+    }
+  ]
+}
