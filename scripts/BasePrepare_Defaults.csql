@@ -1,0 +1,2 @@
+INSERT INTO prepareScriptsValidation (TYPE, EXEC_TIME)
+VALUES ('Execution_Defaults', CURRENT_DATETIME('America/Sao_Paulo'))
