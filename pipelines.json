@@ -22,7 +22,8 @@
             "sendToSubscriptions": true,
             "cronExpressions":
             [
-                "0 5,15,25,35,45,56 * * * ?"
+                "0 0/5 * ? * MON-FRI *",
+      "0 0/15 * ? * SAT,SUN *"
             ],
             "timeZone": "America/Sao_Paulo",
             "prepareScripts":
@@ -54,7 +55,8 @@
             "sendToSubscriptions": true,
             "cronExpressions":
             [
-                "0 5,15,25,35,45,56 * * * ?"
+                "0 0/5 * ? * MON-FRI *",
+                "0 0/15 * ? * SAT,SUN *"
             ],
             "timeZone": "America/Sao_Paulo",
             "prepareScripts":
@@ -86,7 +88,8 @@
             "sendToSubscriptions": true,
             "cronExpressions":
             [
-                "0 5,15,25,35,45,56 * * * ?"
+                "0 0/5 * ? * MON-FRI *",
+                "0 0/15 * ? * SAT,SUN *"
             ],
             "timeZone": "America/Sao_Paulo",
             "prepareScripts":
@@ -118,7 +121,8 @@
             "sendToSubscriptions": true,
             "cronExpressions":
             [
-                "0 5,15,25,35,45,56 * * * ?"
+                "0 0/5 * ? * MON-FRI *",
+                "0 0/15 * ? * SAT,SUN *"
             ],
             "timeZone": "America/Sao_Paulo",
             "prepareScripts":
@@ -150,7 +154,8 @@
             "sendToSubscriptions": true,
             "cronExpressions":
             [
-                "0 5,15,25,35,45,56 * * * ?"
+                "0 0/5 * ? * MON-FRI *",
+                "0 0/15 * ? * SAT,SUN *"
             ],
             "timeZone": "America/Sao_Paulo",
             "prepareScripts":
@@ -182,7 +187,8 @@
             "sendToSubscriptions": true,
             "cronExpressions":
             [
-                "0 5,15,25,35,45,56 * * * ?"
+                "0 0/5 * ? * MON-FRI *",
+                "0 0/15 * ? * SAT,SUN *"
             ],
             "timeZone": "America/Sao_Paulo",
             "prepareScripts":
