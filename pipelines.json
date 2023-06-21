@@ -201,7 +201,7 @@
             "timeZone": "America/Sao_Paulo",
             "prepareScripts":
             [
-                ""
+                "views_gooddata/all_views.csql"
             ],
             "processScript": "views_gooddata/all_views.csql",
             "sourceEntities":
@@ -211,6 +211,10 @@
                 ],
                 "stagings":
                 [
+                {
+                    "connectorName": "myconnector",
+                    "stagingName": "changedatatype"
+                }
                 ]
             }
         }
