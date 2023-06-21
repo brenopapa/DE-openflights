@@ -1,7 +1,9 @@
 CREATE OR REPLACE VIEW view_gooddata_dmpricegooddataestrutmerc AS 
-select * from airports
+select * from planes
 ;
 
 CREATE OR REPLACE VIEW view_gooddata_dmpricegooddatahistorvenda AS 
-select * from airports
+select * from planes
 ;
+
+select 'pipeline runned' as Name;
