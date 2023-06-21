@@ -7,12 +7,7 @@
         ],
         "prepareScripts":
         [
-            "views_gooddata/view_gooddata_dmpricegooddataemptenantid.csql",
-            "views_gooddata/view_gooddata_dmpricegooddataestrutmerc.csql",
-            "views_gooddata/view_gooddata_dmpricegooddatahistorvenda.csql",
-            "views_gooddata/view_gooddata_dmpriceloja.csql",
-            "views_gooddata/view_gooddata_dmpriceproduto.csql",
-            "views_gooddata/view_gooddata_dmpricesensibilidade.csql"
+            "views_gooddata/all_views.csql"
         ]
     },
     "pipelines":
