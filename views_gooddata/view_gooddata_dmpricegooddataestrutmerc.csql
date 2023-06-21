@@ -1,4 +1,5 @@
 CREATE OR REPLACE VIEW `carol-c33681327c8743e59b31.c33681327c8743e59b3137f58b00a64c`.view_gooddata_dmpricegooddataestrutmerc AS 
+select * from (
 select * except(mdmDeleted),
 (mdmDeleted is true or TIMESTAMP_ADD(pricetimestamp, INTERVAL 365 DAY) < CURRENT_TIMESTAMP()) as mdmDeleted,
 IF(TIMESTAMP_ADD(pricetimestamp, INTERVAL 365 DAY) < CURRENT_TIMESTAMP(), TIMESTAMP_ADD(pricetimestamp, INTERVAL 365 DAY), pricetimestamp) as gooddata_timestamp,

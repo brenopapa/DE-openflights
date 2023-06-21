@@ -194,6 +194,30 @@
                     }
                 ]
             }
+        },
+        {
+            "pipelineName": "all_views",
+            "pipelineDescription": "all_views",
+            "outputDataModelName": "all_views",
+            "overlapDeltaMinutes": 3600,
+            "saveToCds": true,
+            "saveToUnified": true,
+            "sendToSubscriptions": true,
+            "timeZone": "America/Sao_Paulo",
+            "prepareScripts":
+            [
+                ""
+            ],
+            "processScript": "views_gooddata/all_views.csql",
+            "sourceEntities":
+            {
+                "dataModels":
+                [
+                ],
+                "stagings":
+                [
+                ]
+            }
         }
     ]
 }
