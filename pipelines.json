@@ -193,7 +193,7 @@
         {
             "pipelineName": "all_views",
             "pipelineDescription": "all_views",
-            "outputDataModelName": "all_views",
+            "outputDataModelName": "airports",
             "overlapDeltaMinutes": 3600,
             "saveToCds": true,
             "saveToUnified": true,
