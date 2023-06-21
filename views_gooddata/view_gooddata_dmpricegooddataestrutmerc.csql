@@ -1,0 +1,18 @@
+CREATE OR REPLACE VIEW `carol-c33681327c8743e59b31.c33681327c8743e59b3137f58b00a64c`.view_gooddata_dmpricegooddataestrutmerc AS --unif
+select * from (
+select * except(mdmDeleted),
+(mdmDeleted is true or TIMESTAMP_ADD(pricetimestamp, INTERVAL 365 DAY) < CURRENT_TIMESTAMP()) as mdmDeleted,
+IF(TIMESTAMP_ADD(pricetimestamp, INTERVAL 365 DAY) < CURRENT_TIMESTAMP(), TIMESTAMP_ADD(pricetimestamp, INTERVAL 365 DAY), pricetimestamp) as gooddata_timestamp,
+row_number() over (PARTITION BY mdmId ORDER BY pricetimestamp DESC) ranking
+from `carol-c33681327c8743e59b31.c33681327c8743e59b3137f58b00a64c`.dmpricegooddataestrutmerc
+) where ranking = 1
+;
+
+CREATE OR REPLACE VIEW `carol-aba7d03a966f428396fd.aba7d03a966f428396fdcd7298cee4ef`.view_gooddata_dmpricegooddataestrutmerc AS --dev
+select * from (
+select * except(mdmDeleted),
+(mdmDeleted is true or TIMESTAMP_ADD(pricetimestamp, INTERVAL 365 DAY) < CURRENT_TIMESTAMP()) as mdmDeleted,
+IF(TIMESTAMP_ADD(pricetimestamp, INTERVAL 365 DAY) < CURRENT_TIMESTAMP(), TIMESTAMP_ADD(pricetimestamp, INTERVAL 365 DAY), pricetimestamp) as gooddata_timestamp,
+row_number() over (PARTITION BY mdmId ORDER BY pricetimestamp DESC) ranking
+from `carol-aba7d03a966f428396fd.aba7d03a966f428396fdcd7298cee4ef`.dmpricegooddataestrutmerc
+) where ranking = 1

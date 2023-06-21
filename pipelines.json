@@ -7,7 +7,12 @@
         ],
         "prepareScripts":
         [
-            "scripts/BasePrepare_Defaults.csql"
+            "views_gooddata/view_gooddata_dmpricegooddataemptenantid.csql",
+            "views_gooddata/view_gooddata_dmpricegooddataestrutmerc.csql",
+            "views_gooddata/view_gooddata_dmpricegooddatahistorvenda.csql",
+            "views_gooddata/view_gooddata_dmpriceloja.csql",
+            "views_gooddata/view_gooddata_dmpriceproduto.csql",
+            "views_gooddata/view_gooddata_dmpricesensibilidade.csql"
         ]
     },
     "pipelines":
@@ -29,7 +34,7 @@
             "timeZone": "America/Sao_Paulo",
             "prepareScripts":
             [
-                "scripts/BasePrepare_Pipelines.csql"
+                ""
             ],
             "processScript": "dml/airlines.csql",
             "sourceEntities":
@@ -57,7 +62,7 @@
             "timeZone": "America/Sao_Paulo",
             "prepareScripts":
             [
-                "scripts/BasePrepare_Pipelines.csql"
+                ""
             ],
             "processScript": "dml/airports.csql",
             "sourceEntities":
@@ -85,7 +90,7 @@
             "timeZone": "America/Sao_Paulo",
             "prepareScripts":
             [
-                "scripts/BasePrepare_Pipelines.csql"
+                ""
             ],
             "processScript": "dml/countries.csql",
             "sourceEntities":
@@ -113,7 +118,7 @@
             "timeZone": "America/Sao_Paulo",
             "prepareScripts":
             [
-                "scripts/BasePrepare_Pipelines.csql"
+                ""
             ],
             "processScript": "dml/planes.csql",
             "sourceEntities":
@@ -141,7 +146,7 @@
             "timeZone": "America/Sao_Paulo",
             "prepareScripts":
             [
-                "scripts/BasePrepare_Pipelines.csql"
+                ""
             ],
             "processScript": "dml/routes.csql",
             "sourceEntities":
@@ -169,7 +174,7 @@
             "timeZone": "America/Sao_Paulo",
             "prepareScripts":
             [
-                "scripts/BasePrepare_Pipelines.csql"
+                ""
             ],
             "processScript": "dml/customstaging.csql",
             "sourceEntities":
