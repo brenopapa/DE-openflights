@@ -186,10 +186,6 @@
                     {
                         "connectorName": "myconnector",
                         "stagingName": "changedatatype"
-                    },
-                    {
-                        "connectorName": "myconnector",
-                        "stagingName": "staging_validacao"
                     }
                 ]
             }
